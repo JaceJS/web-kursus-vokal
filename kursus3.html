@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kursus Vokal Terbaik</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url("gambar/bannerbackground.png"); /* Gambar latar belakang */
+        background-size: cover; /* Menyesuaikan gambar latar belakang agar menutupi seluruh area */
+        background-position: center; /* Memposisikan gambar di tengah */
+        background-attachment: fixed; /* Memastikan gambar tetap saat scroll */
+      }
+      header {
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.8
+        ); /* Latar belakang header dengan transparansi */
+        padding: 10px 20px;
+      }
+      nav {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+      nav a {
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 0 15px;
+        font-size: 18px;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.9
+        ); /* Warna latar belakang putih dengan transparansi */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px; /* Menambahkan sudut melengkung pada kontainer */
+      }
+      .course-list {
+        margin-top: 20px;
+      }
+      .course-item {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        padding: 20px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+      .course-item h3 {
+        margin-top: 0;
+      }
+      .course-item p {
+        margin-bottom: 10px;
+      }
+      .course-item .price {
+        font-weight: bold;
+        color: #e74c3c;
+      }
+      footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px 0;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <img src="gambar/logoheader.png" alt="Logo" class="logo" />
+        <nav>
+          <a href="index3.html">Beranda</a>
+          <a href="kursus3.html">Kursus</a>
+          <a href="kontak3.html">Kontak</a>
+          <a href="absendanjadwal2.php">Absen</a>
+          <a href="loginprivat.php">Logout</a>
+        </nav>
+      </div>
+    </header>
+    <div class="container">
+      <h1>Daftar Kursus Vokal Kami</h1>
+      <div class="course-list">
+        <div class="course-item">
+          <h3>KURSUS VOKAL REGULER</h3>
+          <p>WAKTU LATIHAN : 1 BULAN 4X (1 MINGGU 1X)</p>
+          <p>JAM LATIHAN : 1 JAM/PERTEMUAN</p>
+          <p class="price">Rp 350.000/BULAN</p>
+        </div>
+
+        <div class="course-item">
+          <h3>KURSUS VOKAL PRIVATE</h3>
+          <p>WAKTU LATIHAN : KHUSUS PERMINTAAN</p>
+          <p>JAM LATIHAN : 1 JAM/PERTEMUAN</p>
+          <p class="price">Rp 350.000/PERTEMUAN</p>
+        </div>
+      </div>
+    </div>
+    <footer>&copy; 2024 Kursus Vokal Terbaik. Semua hak dilindungi.</footer>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs and debug files
+*.log
+*.cache
+*.bak
+*.swp
+
+# Composer dependencies
+composer.lock
+/vendor/
+
+# Environment files
+.env
+.env.*
+
+# IDE and editor specific files
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.vscode/
+nbproject/
+*.code-workspace
+
+# Backup and temporary files
+*.bak
+*.tmp
+*.temp
+*.swp
+
+# PHPStorm
+/.phpstorm.meta.php
+
+# Node dependencies (if using tools like npm for assets)
+/node_modules/
+
+# Generated assets
+/public/assets/
+
+# Cache and session files
+/tmp/
+sessions/
+cache/
+
+# PHPUnit
+phpunit.xml
+phpunit.xml.dist
+
+# OS generated files
+*.DS_Store
+*.directory
+*.stackdump
