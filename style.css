@@ -1,3 +1,18 @@
+@font-face {
+  font-family: "HelveticaCd";
+  src: url("fonts/helvetica_condensed.ttf") format("truetype"),
+    url("fonts/Helvetica Condensed Bold Oblique.otf") format("opentype"),
+    url("fonts/Helvetica Condensed Oblique.otf") format("opentype"),
+    url("fonts/Helvetica Condensed Regular.otf") format("opentype"),
+    url("fonts/Helvetica Light Condensed.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: HelveticaCd, Helvetica, Verdana, Sans-Serif;
+}
+
 /* Reset beberapa elemen dasar untuk memastikan konsistensi di berbagai browser */
 * {
   margin: 0;
@@ -5,46 +20,19 @@
   box-sizing: border-box;
 }
 
-/* Gaya umum untuk body */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+a {
+  all: unset;
+  cursor: pointer;
 }
 
-/* Gaya untuk header dan navigasi */
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 15px 0;
-  text-align: center;
+.main-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 50px;
 }
 
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 10px;
-  transition: background-color 0.3s ease;
-}
-
-nav a:hover {
-  background-color: #555;
-  border-radius: 5px;
-}
-
-/* Gaya untuk kontainer utama */
-.container {
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.navbar-brand img {
+  height: 80px;
 }
 
 /* Gaya untuk bagian hero */
@@ -97,65 +85,4 @@ footer {
   position: fixed;
   width: 100%;
   bottom: 0;
-}
-
-/* Responsif */
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-  }
-
-  nav a {
-    padding: 15px;
-    font-size: 1.2em;
-  }
-
-  .hero h1 {
-    font-size: 2em;
-  }
-
-  .hero p {
-    font-size: 1em;
-  }
-}
-
-/* CSS untuk header */
-header {
-  background-color: #f8f8f8; /* Warna latar belakang header */
-  padding: 10px 20px; /* Jarak dalam header */
-}
-
-/* CSS untuk container header */
-.header-container {
-  display: flex;
-  align-items: center; /* Menyelaraskan item secara vertikal di tengah */
-  justify-content: space-between; /* Memastikan logo dan menu berada di ujung yang berbeda */
-  max-width: 1200px; /* Lebar maksimum container */
-  margin: 0 auto; /* Tengah-tengah container */
-}
-
-/* CSS untuk logo */
-.logo {
-  height: 120px; /* Menetapkan tinggi logo */
-  width: auto; /* Menjaga rasio aspek logo */
-  margin-right: 30px; /* Jarak antara logo dan menu */
-}
-
-/* CSS untuk menu navigasi */
-nav {
-  display: flex;
-  align-items: center; /* Menyelaraskan item menu secara vertikal di tengah */
-}
-
-nav a {
-  text-decoration: none;
-  color: #333; /* Warna teks menu */
-  padding: 0 20px; /* Jarak horizontal antar item menu */
-  font-size: 18px; /* Ukuran font menu */
-  line-height: 120px; /* Menyelaraskan teks menu dengan tinggi logo */
-  transition: color 0.3s; /* Efek transisi saat hover */
-}
-
-nav a:hover {
-  color: #007bff; /* Warna teks saat hover */
 }
