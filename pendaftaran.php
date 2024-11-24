@@ -195,6 +195,8 @@ $conn->close();
         <?php include 'components/navbar.php'; ?>
     </div>
 
+    <hr class="m-0">
+
     <div class="container">
         <div class="registration-form">
             <h1>Pendaftaran Kursus Vokal</h1>

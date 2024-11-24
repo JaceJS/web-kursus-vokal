@@ -125,6 +125,8 @@ $conn->close();
     <?php include 'components/navbar.php'; ?>
   </div>
 
+  <hr class="m-0">
+
   <div class="container">
     <div class="login-form">
       <h1>Login</h1>

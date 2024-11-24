@@ -47,6 +47,7 @@
   </div>
 
   <hr class="m-0">
+
   <div class="main-wrapper">
     <div class="container">
       <div class="hero">

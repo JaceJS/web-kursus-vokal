@@ -51,6 +51,8 @@
     <?php include 'components/navbar.php'; ?>
   </div>
 
+  <hr class="m-0">
+
   <div class="container">
     <h1>Daftar Kursus Vokal Kami</h1>
     <div class="course-list">
