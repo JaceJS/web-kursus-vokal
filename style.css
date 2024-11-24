@@ -9,6 +9,12 @@
   font-style: normal;
 }
 
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 body {
   font-family: HelveticaCd, Helvetica, Verdana, Sans-Serif !important;
 }
@@ -23,6 +29,7 @@ body {
 a {
   all: unset;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .main-wrapper {
@@ -89,13 +96,101 @@ section ul li {
   margin-bottom: 10px;
 }
 
-/* Gaya untuk footer */
-footer {
-  background-color: #333;
-  color: #fff;
+/* Footer */
+/* .footer {
+  max-height: 500px;
+  background-color: #2717f8;
+  color: white;
   text-align: center;
-  padding: 10px 0;
-  position: fixed;
+}
+
+.footer-wave {
+  position: relative;
+  top: -10px;
+  background-color: #fff;
+}
+
+.footer-content {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.footer-content h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.footer-content p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.footer-content a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-content .social-icons {
+  margin: 15px 0;
+}
+
+.footer-content .social-icons a img {
+  margin: 0 5px;
+} */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #2717f8;
+  color: white;
+  text-align: center;
+}
+
+.footer-wave {
+  background-color: #fff;
   width: 100%;
-  bottom: 0;
+}
+
+.footer-content {
+  padding: 0 20px 40px;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+.footer-content h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.footer-content p {
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.footer-content a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer-content .social-icons {
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.footer-content .social-icons a img {
+  width: 32px;
+  height: 32px;
+}
+
+.footer p {
+  font-size: 12px;
+  margin: 10px 0 0;
 }
