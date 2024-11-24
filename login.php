@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       session_start();
       $_SESSION['user_id'] = $user['id'];
       $_SESSION['user_name'] = $user['name'];
-      header("Location: index2.php"); // Redirect ke halaman dashboard
+      header("Location: index.php");
       exit;
     } else {
       $error = "Kata sandi salah.";
@@ -117,7 +117,7 @@ $conn->close();
 
   <hr class="m-0">
 
-  <div class="main-wrapper">
+  <div class="main-wrapper py-5">
     <div class="login-form">
       <h1>Login</h1>
       <form action="login.php" method="post">

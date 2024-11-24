@@ -43,7 +43,7 @@
 
   <hr class="m-0">
 
-  <div class="main-wrapper">
+  <div class="main-wrapper py-5">
     <h1>Daftar Kursus Vokal Kami</h1>
     <div class="course-list">
       <div class="course-item">

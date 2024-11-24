@@ -82,7 +82,6 @@
 
     .center-content img {
       max-width: 150px;
-      /* Set a maximum width for the logo */
       margin-bottom: 10px;
     }
 
@@ -110,7 +109,7 @@
 
   <hr class="m-0">
 
-  <div class="main-wrapper">
+  <div class="main-wrapper py-5">
     <div class="contact-info">
       <h2>Kontak Kami</h2>
       <p>
