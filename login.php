@@ -3,7 +3,6 @@
 session_start();
 include 'koneksi.php';
 
-// Variabel untuk menyimpan pesan kesalahan
 $error = "";
 
 // Proses login
@@ -23,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       session_start();
       $_SESSION['user_id'] = $user['id'];
       $_SESSION['user_name'] = $user['name'];
-      header("Location: index.php");
+      header("Location: absendanjadwal.php");
       exit;
     } else {
       $error = "Kata sandi salah.";

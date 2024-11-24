@@ -29,7 +29,7 @@
                         if (!isset($_SESSION['user_id'])) {
                             echo '<a class="nav-link pb-0 ' . (basename($_SERVER['PHP_SELF']) == 'pendaftaran.php' ? 'active' : '') . '" href="pendaftaran.php">PENDAFTARAN</a>';
                         } else {
-                            echo '<a class="nav-link pb-0 ' . (basename($_SERVER['PHP_SELF']) == 'absendanjadwal.php' ? 'active' : '') . '" href="absendanjadwal.php">ABSEN DAN JADWAL</a>';
+                            echo '<a class="nav-link pb-0 ' . (basename($_SERVER['PHP_SELF']) == 'absendanjadwal.php' ? 'active' : '') . '" href="absendanjadwal.php">ABSEN</a>';
                         }
                         ?>
                     </li>

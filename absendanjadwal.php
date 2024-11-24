@@ -157,76 +157,67 @@ $user_data = $user_result->fetch_assoc()
     <?php include 'components/navbar.php'; ?>
   </div>
 
-  <!-- <header>
-    <div class="header-container">
-      <img src="gambar/logoheader.png" alt="Logo" class="logo">
-      <nav>
-        <a href="index2.php">Beranda</a>
-        <a href="kursus2.html">Kursus</a>
-        <a href="kontak2.html">Kontak</a>
-        <a href="absendanjadwal.php">Absen</a>
-        <a href="login.php">Logout</a>
-      </nav>
-    </div>
-  </header> -->
+  <hr class="m-0">
 
-  <div class="container">
-    <!-- Bagian Absen -->
-    <div class="section">
+  <div class="main-wrapper py-5">
+    <div class="container">
+      <!-- Bagian Absen -->
+      <div class="section">
 
-      <h2>Daftar Absensi</h2>
-      <table class="absen-table">
-        <thead>
-          <tr>
-            <th>Pertemuan</th>
-            <th>Tanggal</th>
-            <th>Topik</th>
-            <th>Instruktur</th>
-            <th>Waktu Absen</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if ($absen_result->num_rows > 0): ?>
-            <?php while ($absen = $absen_result->fetch_assoc()): ?>
-              <tr>
-                <td><?php echo htmlspecialchars($absen['pertemuan_ke']); ?></td>
-                <td><?php echo htmlspecialchars($absen['tanggal']); ?></td>
-                <td><?php echo htmlspecialchars($absen['topik']); ?></td>
-                <td><?php echo htmlspecialchars($absen['instruktur']); ?></td>
-                <td><?php echo htmlspecialchars($absen['absen_date']); ?></td>
-              </tr>
-            <?php endwhile; ?>
-          <?php else: ?>
+        <h2>Daftar Absensi</h2>
+        <table class="absen-table">
+          <thead>
             <tr>
-              <td colspan="4">Belum ada data absensi.</td>
+              <th>Pertemuan</th>
+              <th>Tanggal</th>
+              <th>Topik</th>
+              <th>Instruktur</th>
+              <th>Waktu Absen</th>
             </tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <?php if ($absen_result->num_rows > 0): ?>
+              <?php while ($absen = $absen_result->fetch_assoc()): ?>
+                <tr>
+                  <td><?php echo htmlspecialchars($absen['pertemuan_ke']); ?></td>
+                  <td><?php echo htmlspecialchars($absen['tanggal']); ?></td>
+                  <td><?php echo htmlspecialchars($absen['topik']); ?></td>
+                  <td><?php echo htmlspecialchars($absen['instruktur']); ?></td>
+                  <td><?php echo htmlspecialchars($absen['absen_date']); ?></td>
+                </tr>
+              <?php endwhile; ?>
+            <?php else: ?>
+              <tr>
+                <td colspan="4">Belum ada data absensi.</td>
+              </tr>
+            <?php endif; ?>
+          </tbody>
+        </table>
 
-    </div>
+      </div>
 
-    <!-- Bagian Jadwal -->
-    <div class="section">
-      <h2>Jadwal Kursus Anda</h2>
-      <table class="jadwal-table">
-        <thead>
-          <tr>
-            <th>Nama</th>
-            <th>Kursus</th>
-            <th>Hari</th>
-            <th>Jam</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><?php echo htmlspecialchars($user_data['nama']); ?></td>
-            <td><?php echo htmlspecialchars($user_data['course']); ?></td>
-            <td><?php echo htmlspecialchars($user_data['hari']); ?></td>
-            <td><?php echo htmlspecialchars($user_data['jam']); ?></td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Bagian Jadwal -->
+      <div class="section">
+        <h2>Jadwal Kursus Anda</h2>
+        <table class="jadwal-table">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Kursus</th>
+              <th>Hari</th>
+              <th>Jam</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><?php echo htmlspecialchars($user_data['nama']); ?></td>
+              <td><?php echo htmlspecialchars($user_data['course']); ?></td>
+              <td><?php echo htmlspecialchars($user_data['hari']); ?></td>
+              <td><?php echo htmlspecialchars($user_data['jam']); ?></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 

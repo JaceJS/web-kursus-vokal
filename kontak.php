@@ -17,7 +17,6 @@ include 'koneksi.php';
     .contact-info {
       margin-bottom: 20px;
       background-color: rgba(255, 255, 255, 0.8);
-      padding: 20px;
       border-radius: 8px;
       text-align: left;
       /* Align text in contact info */
