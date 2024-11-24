@@ -197,7 +197,7 @@ $conn->close();
 
     <hr class="m-0">
 
-    <div class="container">
+    <div class="main-wrapper">
         <div class="registration-form">
             <h1>Pendaftaran Kursus Vokal</h1>
             <?php if (isset($error_message)): ?>

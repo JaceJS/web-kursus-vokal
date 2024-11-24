@@ -120,7 +120,7 @@
 
   <hr class="m-0">
 
-  <div class="container">
+  <div class="main-wrapper">
     <div class="contact-info">
       <h2>Kontak Kami</h2>
       <p>

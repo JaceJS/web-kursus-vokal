@@ -127,7 +127,7 @@ $conn->close();
 
   <hr class="m-0">
 
-  <div class="container">
+  <div class="main-wrapper">
     <div class="login-form">
       <h1>Login</h1>
       <form action="login.php" method="post">
