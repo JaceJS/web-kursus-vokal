@@ -1,16 +1,16 @@
 @font-face {
   font-family: "HelveticaCd";
-  src: url("fonts/helvetica_condensed.ttf") format("truetype"),
-    url("fonts/Helvetica Condensed Bold Oblique.otf") format("opentype"),
-    url("fonts/Helvetica Condensed Oblique.otf") format("opentype"),
-    url("fonts/Helvetica Condensed Regular.otf") format("opentype"),
-    url("fonts/Helvetica Light Condensed.otf") format("opentype");
+  src: url("./fonts/helvetica_condensed.ttf") format("truetype"),
+    url("./fonts/Helvetica Condensed Bold Oblique.otf") format("opentype"),
+    url("./fonts/Helvetica Condensed Oblique.otf") format("opentype"),
+    url("./fonts/Helvetica Condensed Regular.otf") format("opentype"),
+    url("./fonts/Helvetica Light Condensed.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
 body {
-  font-family: HelveticaCd, Helvetica, Verdana, Sans-Serif;
+  font-family: HelveticaCd, Helvetica, Verdana, Sans-Serif !important;
 }
 
 /* Reset beberapa elemen dasar untuk memastikan konsistensi di berbagai browser */
@@ -33,6 +33,15 @@ a {
 
 .navbar-brand img {
   height: 80px;
+}
+
+.nav-link {
+  color: #000 !important;
+  margin-right: 12px;
+}
+
+.nav-link:hover {
+  color: #2717f8 !important;
 }
 
 /* Gaya untuk bagian hero */

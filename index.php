@@ -8,15 +8,6 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .nav-link {
-      color: #000;
-      margin-right: 12px;
-    }
-
-    .nav-link:hover {
-      color: #2717f8 !important;
-    }
-
     .hero {
       text-align: center;
       margin-bottom: 20px;

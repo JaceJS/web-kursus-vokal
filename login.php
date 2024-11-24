@@ -42,56 +42,8 @@ $conn->close();
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kursus Vokal Terbaik</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-image: url("gambar/bannerbackground.png");
-      /* Menetapkan gambar latar belakang */
-      background-size: cover;
-      /* Menyesuaikan gambar agar menutupi seluruh area */
-      background-position: center;
-      /* Memposisikan gambar di tengah */
-      background-attachment: fixed;
-      /* Memastikan gambar tetap di tempat saat scroll */
-    }
-
-    header {
-      background-color: rgba(255,
-          255,
-          255,
-          0.8);
-      /* Latar belakang header dengan transparansi */
-      padding: 10px 20px;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    nav a {
-      color: #333;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 0 15px;
-      font-size: 18px;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .container {
-      width: 1200px;
-      justify-content: center;
-      align-items: center;
-      min-height: 80vh;
-      /* Mengatur tinggi minimal container */
-    }
-
     .login-form {
       max-width: 400px;
       margin: 0 auto;
@@ -169,18 +121,10 @@ $conn->close();
 </head>
 
 <body>
-  <header>
-    <div class="header-container">
-      <img src="gambar/logoheader.png" alt="Logo" class="logo" />
-      <nav>
-        <a href="index.html">Beranda</a>
-        <a href="kursus.html">Kursus</a>
-        <a href="pendaftaran.php">Pendaftaran</a>
-        <a href="kontak.html">Kontak</a>
-        <a href="login.php">Login</a>
-      </nav>
-    </div>
-  </header>
+  <div class="main-wrapper">
+    <?php include 'components/navbar.php'; ?>
+  </div>
+
   <div class="container">
     <div class="login-form">
       <h1>Login</h1>
@@ -209,6 +153,7 @@ $conn->close();
     </div>
   </div>
   <footer>&copy; 2024 Kursus Vokal Terbaik. Semua hak dilindungi.</footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

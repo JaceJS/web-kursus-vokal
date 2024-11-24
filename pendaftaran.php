@@ -30,6 +30,8 @@ if ($result_private->num_rows > 0) {
 
 // Proses form pendaftaran
 require_once dirname(__FILE__) . '/vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__, '.env');
+$dotenv->load();
 
 // Set Midtrans server key
 \Midtrans\Config::$serverKey = $_ENV['MIDTRANS_SERVER_KEY'];
@@ -119,47 +121,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kursus Vokal Terbaik</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* CSS sama seperti sebelumnya */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-image: url("gambar/bannerbackground.png");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        header {
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px 20px;
-        }
-
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        nav a {
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 0 15px;
-            font-size: 18px;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
         .registration-form {
             max-width: 600px;
             margin: 0 auto;
@@ -224,23 +187,14 @@ $conn->close();
             bottom: 0;
         }
     </style>
-
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-OMcK_7hgLXcWo96E"></script>
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <img src="gambar/logoheader.png" alt="Logo" class="logo">
-            <nav>
-                <a href="index.html">Beranda</a>
-                <a href="kursus.html">Kursus</a>
-                <a href="pendaftaran.php">Pendaftaran</a>
-                <a href="kontak.html">Kontak</a>
-                <a href="login.php">Login</a>
-            </nav>
-        </div>
-    </header>
+    <div class="main-wrapper">
+        <?php include 'components/navbar.php'; ?>
+    </div>
+
     <div class="container">
         <div class="registration-form">
             <h1>Pendaftaran Kursus Vokal</h1>
@@ -310,6 +264,8 @@ $conn->close();
         </div>
     </div>
     <footer>&copy; 2024 Kursus Vokal Terbaik. Semua hak dilindungi.</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Data booked_slots diambil dari PHP untuk reguler dan private
         var bookedSlotsReguler = <?php echo json_encode($booked_slots_reguler); ?>;
@@ -392,6 +348,7 @@ $conn->close();
         }
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
