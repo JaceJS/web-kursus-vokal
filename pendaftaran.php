@@ -1,4 +1,5 @@
 <?php
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -40,8 +41,6 @@ $dotenv->load();
 \Midtrans\Config::$is3ds = true;
 
 $snapToken = null; // Initial null
-
-session_start();
 
 // Proses form pendaftaran
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

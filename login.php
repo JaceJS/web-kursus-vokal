@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 include 'koneksi.php';
 
 // Variabel untuk menyimpan pesan kesalahan

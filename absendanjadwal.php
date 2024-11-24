@@ -45,59 +45,8 @@ $user_data = $user_result->fetch_assoc()
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kursus Vokal Terbaik</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-image: url("gambar/bannerbackground.png");
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      color: #333;
-    }
-
-    header {
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 10px 20px;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav {
-      display: flex;
-      gap: 20px;
-    }
-
-    nav a {
-      color: #333;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 0 15px;
-      font-size: 18px;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      margin-top: 150px;
-      /* Adjust to avoid overlap with the fixed header */
-    }
-
     .section {
       margin-bottom: 50px;
       padding: 20px;
@@ -200,22 +149,15 @@ $user_data = $user_result->fetch_assoc()
       font-size: 16px;
       color: #555;
     }
-
-    footer {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 15px 0;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
-      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    }
   </style>
 </head>
 
 <body>
-  <header>
+  <div class="main-wrapper">
+    <?php include 'components/navbar.php'; ?>
+  </div>
+
+  <!-- <header>
     <div class="header-container">
       <img src="gambar/logoheader.png" alt="Logo" class="logo">
       <nav>
@@ -226,7 +168,8 @@ $user_data = $user_result->fetch_assoc()
         <a href="login.php">Logout</a>
       </nav>
     </div>
-  </header>
+  </header> -->
+
   <div class="container">
     <!-- Bagian Absen -->
     <div class="section">
@@ -286,9 +229,8 @@ $user_data = $user_result->fetch_assoc()
       </table>
     </div>
   </div>
-  <footer>
-    &copy; 2024 Kursus Vokal Terbaik. Semua hak dilindungi.
-  </footer>
+
+  <?php include 'components/footer.php'; ?>
 </body>
 
 </html>

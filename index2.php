@@ -25,7 +25,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-  // Jika pengguna tidak ditemukan, logout
   header("Location: logout.php");
   exit;
 }
@@ -36,7 +35,6 @@ $nama = $user['nama'];
 
 $stmt->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="id">
