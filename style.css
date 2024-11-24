@@ -44,6 +44,10 @@ a {
   color: #2717f8 !important;
 }
 
+.navbar .nav-link.active {
+  color: #2717f8 !important;
+}
+
 /* Gaya untuk bagian hero */
 .hero {
   text-align: center;

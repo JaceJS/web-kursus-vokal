@@ -18,12 +18,24 @@
                 </div>
 
                 <ul class="navbar-nav fw-bold" style="font-size: 16px;">
-                    <li class="nav-item"><a class="nav-link pb-0" href="index.php">BERANDA</a></li>
-                    <li class="nav-item"><a class="nav-link pb-0" href="kursus.php">KURSUS</a></li>
-                    <li class="nav-item"><a class="nav-link pb-0" href="pendaftaran.php">PENDAFTARAN</a></li>
-                    <li class="nav-item"><a class="nav-link pb-0" href="#">GALERI</a></li>
-                    <li class="nav-item"><a class="nav-link pb-0" href="kontak.php">KONTAK</a></li>
-                    <li class="nav-item"><a class="nav-link pb-0" href="login.php">LOGIN</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>" href="index.php">BERANDA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'kursus.php' ? 'active' : ''; ?>" href="kursus.php">KURSUS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'pendaftaran.php' ? 'active' : ''; ?>" href="pendaftaran.php">PENDAFTARAN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'galeri.php' ? 'active' : ''; ?>" href="#">GALERI</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'kontak.php' ? 'active' : ''; ?>" href="kontak.php">KONTAK</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'login.php' ? 'active' : ''; ?>" href="login.php">LOGIN</a>
+                    </li>
                 </ul>
             </div>
         </div>
