@@ -28,8 +28,6 @@ if ($result_private->num_rows > 0) {
     }
 }
 
-
-// Proses form pendaftaran
 require_once dirname(__FILE__) . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__, '.env');
 $dotenv->load();
@@ -40,9 +38,8 @@ $dotenv->load();
 \Midtrans\Config::$isSanitized = true;
 \Midtrans\Config::$is3ds = true;
 
-$snapToken = null; // Initial null
+$snapToken = null;
 
-// Proses form pendaftaran
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $conn->real_escape_string($_POST['name']);
     $email = $conn->real_escape_string($_POST['email']);

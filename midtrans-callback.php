@@ -1,10 +1,6 @@
 <?php
-// Load Midtrans SDK
-
-use Dotenv\Dotenv;
-
 require_once dirname(__FILE__) . '/vendor/autoload.php';
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__, '.env');
 $dotenv->load();
 
 \Midtrans\Config::$serverKey = $_ENV['MIDTRANS_SERVER_KEY'];
