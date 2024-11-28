@@ -34,7 +34,7 @@
                         ?>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'galeri.php' ? 'active' : ''; ?>" href="#">GALERI</a>
+                        <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'galeri.php' ? 'active' : ''; ?>" href="galeri.php">GALERI</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'kontak.php' ? 'active' : ''; ?>" href="kontak.php">KONTAK</a>
