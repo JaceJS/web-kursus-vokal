@@ -2,6 +2,28 @@
 session_start();
 
 include 'koneksi.php';
+
+date_default_timezone_set('Asia/Makassar');
+
+if (isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+  $sql = "SELECT status, nama FROM users WHERE id = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("i", $user_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows === 0) {
+    header("Location: logout.php");
+    exit;
+  }
+
+  $user = $result->fetch_assoc();
+  $status = $user['status'];
+  $nama = $user['nama'];
+
+  $stmt->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +68,19 @@ include 'koneksi.php';
 
   <div class="main-wrapper">
     <div class="container">
+      <?php
+      if (isset($_SESSION['user_id'])) {
+        if ($status === 'Tidak Aktif') {
+      ?>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Perhatian!</strong> Akun Anda sudah tidak aktif. Silakan hubungi admin untuk informasi lebih lanjut.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      <?php
+        }
+      }
+      ?>
+
       <div class="hero">
         <img src="gambar/bannerberanda.png" alt="Gambar Kursus Vokal" />
         <h1>SELAMAT DATANG DI KURSUS VOCAL SIMPHONY</h1>

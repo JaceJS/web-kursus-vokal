@@ -131,17 +131,10 @@ $conn->close();
         <button type="submit">Masuk</button>
 
         <?php
-        // Menampilkan pesan error jika ada
         if ($error) {
           echo "<p style='color: red; text-align: center;'>$error</p>";
         }
         ?>
-
-        <div class="message">
-          <p>
-            Belum punya akun murid? <a href="signup.php">Buat akun sekarang</a>
-          </p>
-        </div>
       </form>
     </div>
   </div>
