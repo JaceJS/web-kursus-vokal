@@ -14,10 +14,6 @@ include 'koneksi.php';
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .course-list {
-      margin-top: 20px;
-    }
-
     .course-item {
       background-color: #f9f9f9;
       border: 1px solid #ddd;
@@ -50,7 +46,7 @@ include 'koneksi.php';
   <hr class="m-0">
 
   <div class="main-wrapper py-5">
-    <h1>Daftar Kursus Vokal Kami</h1>
+    <h1 class="mb-4">Daftar Kursus Vokal Kami</h1>
     <div class="course-list">
       <div class="course-item">
         <h3>KURSUS VOKAL REGULER</h3>

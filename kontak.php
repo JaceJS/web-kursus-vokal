@@ -116,7 +116,7 @@ include 'koneksi.php';
 
   <div class="main-wrapper py-5">
     <div class="contact-info">
-      <h2>Kontak Kami</h2>
+      <h1 class="mb-4">Kontak Kami</h1>
       <p>
         Jika Anda memiliki pertanyaan atau memerlukan informasi lebih lanjut,
         jangan ragu untuk menghubungi kami melalui informasi di bawah ini:

@@ -23,7 +23,7 @@ include 'koneksi.php';
     <hr class="m-0">
 
     <div class="main-wrapper py-5" style="height: 50vh;">
-        <h1>Galeri Kursus Vokal Kami</h1>
+        <h1 class="mb-4">Galeri Kursus Vokal Kami</h1>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <div class="col">
                 <div class="card">
