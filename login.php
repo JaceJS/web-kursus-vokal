@@ -135,6 +135,11 @@ $conn->close();
           echo "<p style='color: red; text-align: center;'>$error</p>";
         }
         ?>
+        <div class="message">
+          <p>
+            Belum punya akun murid? <a href="signup.php">Buat akun sekarang</a>
+          </p>
+        </div>
       </form>
     </div>
   </div>

@@ -9,7 +9,6 @@ include 'koneksi.php';
 $booked_slots_reguler = [];
 $booked_slots_private = [];
 
-// Ambil semua slot hari dan jam yang sudah diambil untuk kursus reguler
 // Ambil semua slot hari dan jam yang sudah diambil untuk kursus reguler dengan status settled
 $sql_reguler = "SELECT hari, jam FROM pendaftaran WHERE course = 'reguler' AND status = 'settled'";
 $result_reguler = $conn->query($sql_reguler);
@@ -43,6 +42,8 @@ $snapToken = null;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $conn->real_escape_string($_POST['name']);
     $email = $conn->real_escape_string($_POST['email']);
+    $password = $conn->real_escape_string($_POST['password']);
+    $confirm_password = $conn->real_escape_string($_POST['confirm_password']);
     $phone = $conn->real_escape_string($_POST['phone']);
     $course = $conn->real_escape_string($_POST['course']);
     $hari = $conn->real_escape_string($_POST['hari']);
@@ -62,49 +63,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $order_id = 'ORDER-' . time(); // Unique order ID
 
-    // Simpan data pendaftaran dengan status pending ke database
-    $sql = "INSERT INTO pendaftaran (name, email, phone, course, hari, jam, message, order_id, status) 
-            VALUES ('$name', '$email', '$phone', '$course', '$hari', '$jam', '$message', '$order_id', 'pending')";
-    if (!$conn->query($sql)) {
-        $error_message = "Database error: " . $conn->error;
-    }
+    if ($password !== $confirm_password) {
+        $error_message = "Password dan konfirmasi password tidak cocok.";
+    } else {
+        // Simpan data pendaftaran dengan status pending ke database
+        $sql = "INSERT INTO pendaftaran (name, email, phone, course, hari, jam, message, order_id, status) 
+                VALUES ('$name', '$email', '$phone', '$course', '$hari', '$jam', '$message', '$order_id', 'pending')";
+        if (!$conn->query($sql)) {
+            $error_message = "Database error: " . $conn->error;
+        }
 
-    // Tentukan harga berdasarkan jenis kursus
-    $course_price = ($course == 'reguler') ? 400000 : 350000;
+        // Insert User
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $transaction_details = array(
-        'order_id' => $order_id,
-        'gross_amount' => $course_price
-    );
+        $insertUser = "INSERT INTO users (nama, email, password, course, hari, jam, order_id, status) 
+                        VALUES ('$name', '$email', '$hashed_password', '$course', '$hari', '$jam', '$order_id', 'Aktif')";
 
-    $item_details = array(
-        array(
-            'id' => 'a01',
-            'price' => $course_price,
-            'quantity' => 1,
-            'name' => $course == 'reguler' ? 'Kursus Vokal Reguler' : 'Kursus Vokal Private'
-        )
-    );
+        if ($conn->query($insertUser) === TRUE) {
+            echo "Pendaftaran berhasil!";
+        } else {
+            echo "Terjadi kesalahan: " . $conn->error;
+        }
 
-    $customer_details = array(
-        'first_name' => $name,
-        'email' => $email,
-        'phone' => $phone
-    );
+        // Tentukan harga berdasarkan jenis kursus
+        $course_price = ($course == 'reguler') ? 400000 : 350000;
 
-    $transaction = array(
-        'transaction_details' => $transaction_details,
-        'customer_details' => $customer_details,
-        'item_details' => $item_details,
-    );
+        $transaction_details = array(
+            'order_id' => $order_id,
+            'gross_amount' => $course_price
+        );
 
-    try {
-        $snapToken = \Midtrans\Snap::getSnapToken($transaction);
-    } catch (Exception $e) {
-        $error_message = "Midtrans error: " . $e->getMessage();
+        $item_details = array(
+            array(
+                'id' => 'a01',
+                'price' => $course_price,
+                'quantity' => 1,
+                'name' => $course == 'reguler' ? 'Kursus Vokal Reguler' : 'Kursus Vokal Private'
+            )
+        );
+
+        $customer_details = array(
+            'first_name' => $name,
+            'email' => $email,
+            'phone' => $phone
+        );
+
+        $transaction = array(
+            'transaction_details' => $transaction_details,
+            'customer_details' => $customer_details,
+            'item_details' => $item_details,
+        );
+
+        try {
+            $snapToken = \Midtrans\Snap::getSnapToken($transaction);
+        } catch (Exception $e) {
+            $error_message = "Midtrans error: " . $e->getMessage();
+        }
     }
 }
-
 $conn->close();
 ?>
 
@@ -196,6 +212,12 @@ $conn->close();
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
 
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="confirm_password">Konfirmasi Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+
                 <label for="phone">Nomor Telepon:</label>
                 <input type="tel" id="phone" name="phone" required>
 
@@ -234,7 +256,7 @@ $conn->close();
                         snap.pay('<?php echo $snapToken; ?>', {
                             onSuccess: function(result) {
                                 alert("Pembayaran berhasil");
-                                window.location.href = "https://kvsmanado.my.id/signup.php"; // Redirect ke halaman signup
+                                window.location.href = "https://kvsmanado.my.id/login.php"; // Redirect ke halaman signup
                             },
                             onPending: function(result) {
                                 alert("Pembayaran tertunda");
