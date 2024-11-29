@@ -7,6 +7,8 @@ include 'koneksi.php';
 
 // Process registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize input
+    $nama = $conn->real_escape_string($_POST['name']);
     $email = $conn->real_escape_string($_POST['email']);
     $password = $conn->real_escape_string($_POST['password']);
     $confirm_password = $conn->real_escape_string($_POST['confirm_password']);
@@ -22,8 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($checkEmail->num_rows > 0) {
             $error = "Email sudah terdaftar.";
         } else {
-            $sql = "INSERT INTO users (email, password, nama, phone, status) 
-                    VALUES ('$email', '$hashed_password', '$nama', '$phone', 'Aktif')";
+            // Insert user data into the users table
+            $sql = "INSERT INTO users (nama, email, password, phone, status) 
+                    VALUES ('$nama', '$email', '$hashed_password', '$phone', 'Aktif')";
+
             if ($conn->query($sql) === TRUE) {
                 header("Location: login.php");
                 exit;
@@ -138,6 +142,9 @@ $conn->close();
         <div class="signup-form">
             <h1>Buat Akun Murid</h1>
             <form action="signup.php" method="post">
+                <label for="name">Nama:</label>
+                <input type="text" id="name" name="name" required>
+
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
 
