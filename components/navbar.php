@@ -25,14 +25,16 @@
                         <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'kursus.php' ? 'active' : ''; ?>" href="kursus.php">KURSUS</a>
                     </li>
                     <li class="nav-item">
-                        <?php
-                        if (!isset($_SESSION['user_id'])) {
-                            echo '<a class="nav-link pb-0 ' . (basename($_SERVER['PHP_SELF']) == 'pendaftaran.php' ? 'active' : '') . '" href="pendaftaran.php">PENDAFTARAN</a>';
-                        } else {
-                            echo '<a class="nav-link pb-0 ' . (basename($_SERVER['PHP_SELF']) == 'absendanjadwal.php' ? 'active' : '') . '" href="absendanjadwal.php">ABSEN</a>';
-                        }
-                        ?>
+                        <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'pendaftaran.php' ? 'active' : ''; ?>" href="pendaftaran.php">PENDAFTARAN</a>
                     </li>
+                    <?php
+                    if (isset($_SESSION['user_id'])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link pb-0 ' <?php echo basename($_SERVER['PHP_SELF']) == 'absendanjadwal.php' ? 'active' : '' ?>" href="absendanjadwal.php">ABSEN</a>
+                        </li>
+                    <?php
+                    endif;
+                    ?>
                     <li class="nav-item">
                         <a class="nav-link pb-0 <?php echo basename($_SERVER['PHP_SELF']) == 'galeri.php' ? 'active' : ''; ?>" href="galeri.php">GALERI</a>
                     </li>

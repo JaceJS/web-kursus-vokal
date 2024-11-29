@@ -40,6 +40,13 @@ $dotenv->load();
 $snapToken = null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_SESSION['user_id'])) {
+        $_SESSION['error_daftar_kursus'] = "Buat akun terlebih dahulu.";
+
+        header("Location: login.php");
+        exit;
+    }
+
     $name = $conn->real_escape_string($_POST['name']);
     $email = $conn->real_escape_string($_POST['email']);
     $password = $conn->real_escape_string($_POST['password']);
@@ -206,30 +213,15 @@ $conn->close();
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
             <form action="pendaftaran.php" method="post">
-                <label for="name">Nama Lengkap:</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-
-                <label for="confirm_password">Konfirmasi Password:</label>
-                <input type="password" id="confirm_password" name="confirm_password" required>
-
-                <label for="phone">Nomor Telepon:</label>
-                <input type="tel" id="phone" name="phone" required>
-
                 <label for="course">Pilih Kursus:</label>
-                <select id="course" name="course" required onchange="updateHariOptions()">
+                <select id="course" name="course" onchange="updateHariOptions()">
                     <option value="">Pilih kursus...</option>
                     <option value="reguler">KURSUS VOKAL REGULER</option>
                     <option value="private">KURSUS VOKAL PRIVATE</option>
                 </select>
 
                 <label for="hari">Pilih Hari:</label>
-                <select id="hari" name="hari" required onchange="updateJamOptions()">
+                <select id="hari" name="hari" onchange="updateJamOptions()">
                     <option value="">Pilih hari...</option>
                     <option value="Senin">Senin</option>
                     <option value="Selasa">Selasa</option>
@@ -240,7 +232,7 @@ $conn->close();
                 </select>
 
                 <label for="jam">Pilih Jam:</label>
-                <select id="jam" name="jam" required>
+                <select id="jam" name="jam">
                     <option value="">Pilih jam...</option>
                 </select>
 

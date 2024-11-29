@@ -78,7 +78,7 @@ $conn->close();
       border-radius: 4px;
     }
 
-    .login-form button {
+    .login-form .masuk-button {
       background-color: #333;
       color: #fff;
       border: none;
@@ -121,6 +121,17 @@ $conn->close();
   <div class="main-wrapper py-5">
     <div class="login-form">
       <h1>Login</h1>
+      <?php
+      if (isset($_SESSION['error_daftar_kursus'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <?php echo $_SESSION['error_daftar_kursus']; ?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['error_daftar_kursus']); // Menghapus session error setelah ditampilkan 
+        ?>
+      <?php
+      endif;
+      ?>
       <form action="login.php" method="post">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required />
@@ -128,7 +139,7 @@ $conn->close();
         <label for="password">Kata Sandi:</label>
         <input type="password" id="password" name="password" required />
 
-        <button type="submit">Masuk</button>
+        <button class="masuk-button" type="submit">Masuk</button>
 
         <?php
         if ($error) {
