@@ -18,14 +18,18 @@ date_default_timezone_set('Asia/Makassar');
 $user_id = $_SESSION['user_id'];
 
 // Ambil daftar pengguna
-$user_query = "SELECT id, nama, course, hari, jam, created_at FROM users WHERE id = $user_id";
+$user_query = "SELECT u.nama, p.course, p.hari, p.jam, p.created_at 
+                FROM pendaftaran p
+                JOIN users u ON p.user_id = u.id
+                WHERE user_id = $user_id AND u.status = 'Aktif'";
 $user_result = $conn->query($user_query);
 
 // Jika data pengguna tidak ditemukan
-if ($user_result->num_rows == 0) {
-  echo "<p>Tidak ada data pengguna ditemukan.</p>";
-  exit;
-}
+// if ($user_result->num_rows == 0) {
+//   echo "<p>Tidak ada data pengguna ditemukan.</p>";
+//   exit;
+// }
+
 // Ambil data absensi berdasarkan user_id
 $absen_query = "SELECT pertemuan_ke, tanggal, topik, instruktur, absen_date FROM absen WHERE user_id = $user_id ORDER BY pertemuan_ke ASC";
 $absen_result = $conn->query($absen_query);
@@ -33,8 +37,6 @@ $absen_result = $conn->query($absen_query);
 
 // Ambil data pengguna
 $user_data = $user_result->fetch_assoc()
-
-
 ?>
 
 <!DOCTYPE html>
@@ -161,9 +163,37 @@ $user_data = $user_result->fetch_assoc()
 
   <div class="main-wrapper py-5">
     <div class="container">
+      <!-- Bagian Jadwal -->
+      <div class="section">
+        <h2>Jadwal Kursus Anda</h2>
+        <table class="jadwal-table">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Kursus</th>
+              <th>Hari</th>
+              <th>Jam</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <?php if ($user_result->num_rows == 0) { ?>
+                <td colspan="4">
+                  <span class="text-danger fw-bold">Belum melakukan pendaftaran kursus.</span>
+                </td>
+              <?php } else { ?>
+                <td><?php echo htmlspecialchars($user_data['nama']); ?></td>
+                <td><?php echo htmlspecialchars($user_data['course']); ?></td>
+                <td><?php echo htmlspecialchars($user_data['hari']); ?></td>
+                <td><?php echo htmlspecialchars($user_data['jam']); ?></td>
+              <?php } ?>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <!-- Bagian Absen -->
       <div class="section">
-
         <h2>Daftar Absensi</h2>
         <table class="absen-table">
           <thead>
@@ -188,33 +218,9 @@ $user_data = $user_result->fetch_assoc()
               <?php endwhile; ?>
             <?php else: ?>
               <tr>
-                <td colspan="4">Belum ada data absensi.</td>
+                <td colspan="5">Belum ada data absensi.</td>
               </tr>
             <?php endif; ?>
-          </tbody>
-        </table>
-
-      </div>
-
-      <!-- Bagian Jadwal -->
-      <div class="section">
-        <h2>Jadwal Kursus Anda</h2>
-        <table class="jadwal-table">
-          <thead>
-            <tr>
-              <th>Nama</th>
-              <th>Kursus</th>
-              <th>Hari</th>
-              <th>Jam</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><?php echo htmlspecialchars($user_data['nama']); ?></td>
-              <td><?php echo htmlspecialchars($user_data['course']); ?></td>
-              <td><?php echo htmlspecialchars($user_data['hari']); ?></td>
-              <td><?php echo htmlspecialchars($user_data['jam']); ?></td>
-            </tr>
           </tbody>
         </table>
       </div>
