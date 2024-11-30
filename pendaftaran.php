@@ -59,12 +59,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_phone'] = $user['phone'];
             $_SESSION['user_status'] = $user['status'];
-            $_SESSION['success_message'] = "Login berhasil.";
+            $_SESSION['success_account'] = "Login berhasil.";
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Login berhasil!'
             ]);
         } else {
+            $_SESSION['error_account'] = "Email atau password salah!";
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Email atau password salah!'
@@ -102,9 +103,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("INSERT INTO users (nama, email, password, phone) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO users (nama, email, password, phone, status) VALUES (?, ?, ?, ?, 'Tidak Aktif')");
         $stmt->bind_param("ssss", $name, $email, $hashed_password, $phone);
         if ($stmt->execute()) {
+            $user_id = $conn->insert_id;
+
+            $_SESSION['user_id'] = $user_id;
+            $_SESSION['user_name'] = $name;
+            $_SESSION['user_email'] = $email;
+            $_SESSION['user_phone'] = $phone;
+            $_SESSION['user_status'] = 'Tidak Aktif';
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Registrasi berhasil!'
@@ -115,6 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'message' => 'Gagal mendaftar, coba lagi.'
             ]);
         }
+        exit;
     }
 
     // Ambil data pengguna berdasarkan user_id
@@ -277,11 +286,17 @@ $conn->close();
             <div class="d-flex justify-content-between flex-wrap">
                 <!-- Account Form -->
                 <form class="flex-grow-1 registration-form mt-5 mt-md-0" style="max-width: 450px;">
-                    <?php if (isset($success_message)): ?>
-                        <div class="success-message"><?php echo $success_message; ?></div>
+                    <?php if (isset($_SESSION['success_account'])): ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <?php echo $_SESSION['success_account']; ?>
+                        </div>
+                        <?php unset($_SESSION['success_account']); ?>
                     <?php endif; ?>
-                    <?php if (isset($error_message)): ?>
-                        <div class="error-message"><?php echo $error_message; ?></div>
+                    <?php if (isset($_SESSION['error_account'])): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?php echo $_SESSION['error_account']; ?>
+                        </div>
+                        <?php unset($_SESSION['error_account']); ?>
                     <?php endif; ?>
 
 

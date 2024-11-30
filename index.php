@@ -72,9 +72,8 @@ if (isset($_SESSION['user_id'])) {
       if (isset($_SESSION['user_id'])) {
         if ($status === 'Tidak Aktif') {
       ?>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Perhatian!</strong> Akun Anda sudah tidak aktif. Silakan hubungi admin untuk informasi lebih lanjut.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Perhatian!</strong> Anda belum mendaftar kursus. Silahkan melakukan pendaftaran kursus di Menu Pendaftaran.
           </div>
       <?php
         }
