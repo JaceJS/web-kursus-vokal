@@ -21,7 +21,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (password_verify($password, $user['password'])) {
       session_start();
       $_SESSION['user_id'] = $user['id'];
-      $_SESSION['user_name'] = $user['name'];
+      $_SESSION['user_name'] = $user['nama'];
+      $_SESSION['user_email'] = $user['email'];
+      $_SESSION['user_phone'] = $user['phone'];
+      $_SESSION['user_status'] = $user['status'];
       header("Location: absendanjadwal.php");
       exit;
     } else {
@@ -146,11 +149,11 @@ $conn->close();
           echo "<p style='color: red; text-align: center;'>$error</p>";
         }
         ?>
-        <div class="message">
+        <!-- <div class="message">
           <p>
             Belum punya akun murid? <a href="signup.php">Buat akun sekarang</a>
           </p>
-        </div>
+        </div> -->
       </form>
     </div>
   </div>

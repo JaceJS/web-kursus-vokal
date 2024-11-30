@@ -176,8 +176,8 @@ $user_data = $user_result->fetch_assoc()
             </tr>
           </thead>
           <tbody>
-            <?php if ($absen_result->num_rows > 0): ?>
-              <?php while ($absen = $absen_result->fetch_assoc()): ?>
+            <?php if ($absen_result->num_rows > 0):
+              while ($absen = $absen_result->fetch_assoc()): ?>
                 <tr>
                   <td><?php echo htmlspecialchars($absen['pertemuan_ke']); ?></td>
                   <td><?php echo htmlspecialchars($absen['tanggal']); ?></td>

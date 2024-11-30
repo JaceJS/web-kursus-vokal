@@ -5,6 +5,8 @@ ini_set('display_errors', 1);
 
 include 'koneksi.php';
 
+ob_clean();
+
 // Inisialisasi array untuk slot yang sudah dibooking berdasarkan hari dan jenis kursus
 $booked_slots_reguler = [];
 $booked_slots_private = [];
@@ -40,93 +42,156 @@ $dotenv->load();
 $snapToken = null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!isset($_SESSION['user_id'])) {
-        $_SESSION['error_daftar_kursus'] = "Buat akun terlebih dahulu.";
+    // Proses Login
+    if (isset($_POST['account_option']) && $_POST['account_option'] == 'login') {
+        $email = $_POST['email-login'];
+        $password = $_POST['password-login'];
 
-        header("Location: login.php");
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_name'] = $user['nama'];
+            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_phone'] = $user['phone'];
+            $_SESSION['user_status'] = $user['status'];
+            $_SESSION['success_message'] = "Login berhasil.";
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Login berhasil!'
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Email atau password salah!'
+            ]);
+        }
         exit;
     }
 
-    $name = $conn->real_escape_string($_POST['name']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $password = $conn->real_escape_string($_POST['password']);
-    $confirm_password = $conn->real_escape_string($_POST['confirm_password']);
-    $phone = $conn->real_escape_string($_POST['phone']);
-    $course = $conn->real_escape_string($_POST['course']);
-    $hari = $conn->real_escape_string($_POST['hari']);
-    $jam = $conn->real_escape_string($_POST['jam']);
-    $message = $conn->real_escape_string($_POST['message']);
+    // Proses Registrasi
+    if (isset($_POST['account_option']) && $_POST['account_option'] == 'register') {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm_password'];
+        $phone = $_POST['phone'];
 
-    // Create a temporary entry with status 'pending' or save in session
-    $_SESSION['registration_data'] = [
-        'name' => $name,
-        'email' => $email,
-        'phone' => $phone,
-        'course' => $course,
-        'hari' => $hari,
-        'jam' => $jam,
-        'message' => $message
-    ];
-
-    $order_id = 'ORDER-' . time(); // Unique order ID
-
-    if ($password !== $confirm_password) {
-        $error_message = "Password dan konfirmasi password tidak cocok.";
-    } else {
-        // Simpan data pendaftaran dengan status pending ke database
-        $sql = "INSERT INTO pendaftaran (name, email, phone, course, hari, jam, message, order_id, status) 
-                VALUES ('$name', '$email', '$phone', '$course', '$hari', '$jam', '$message', '$order_id', 'pending')";
-        if (!$conn->query($sql)) {
-            $error_message = "Database error: " . $conn->error;
+        if ($password !== $confirm_password) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Password dan konfirmasi password tidak cocok!'
+            ]);
+            exit;
         }
 
-        // Insert User
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Email sudah terdaftar!'
+            ]);
+            exit;
+        }
+
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        $insertUser = "INSERT INTO users (nama, email, password, course, hari, jam, order_id, status) 
-                        VALUES ('$name', '$email', '$hashed_password', '$course', '$hari', '$jam', '$order_id', 'Aktif')";
-
-        if ($conn->query($insertUser) === TRUE) {
-            echo "Pendaftaran berhasil!";
+        $stmt = $conn->prepare("INSERT INTO users (nama, email, password, phone) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $name, $email, $hashed_password, $phone);
+        if ($stmt->execute()) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Registrasi berhasil!'
+            ]);
         } else {
-            echo "Terjadi kesalahan: " . $conn->error;
-        }
-
-        // Tentukan harga berdasarkan jenis kursus
-        $course_price = ($course == 'reguler') ? 400000 : 350000;
-
-        $transaction_details = array(
-            'order_id' => $order_id,
-            'gross_amount' => $course_price
-        );
-
-        $item_details = array(
-            array(
-                'id' => 'a01',
-                'price' => $course_price,
-                'quantity' => 1,
-                'name' => $course == 'reguler' ? 'Kursus Vokal Reguler' : 'Kursus Vokal Private'
-            )
-        );
-
-        $customer_details = array(
-            'first_name' => $name,
-            'email' => $email,
-            'phone' => $phone
-        );
-
-        $transaction = array(
-            'transaction_details' => $transaction_details,
-            'customer_details' => $customer_details,
-            'item_details' => $item_details,
-        );
-
-        try {
-            $snapToken = \Midtrans\Snap::getSnapToken($transaction);
-        } catch (Exception $e) {
-            $error_message = "Midtrans error: " . $e->getMessage();
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Gagal mendaftar, coba lagi.'
+            ]);
         }
     }
+
+    // Ambil data pengguna berdasarkan user_id
+    // $query = "SELECT nama, email, phone, status FROM users WHERE id = ?";
+    // $stmt = $conn->prepare($query);
+    // $stmt->bind_param("i", $user_id);
+    // $stmt->execute();
+    // $result = $stmt->get_result();
+    // if ($result->num_rows > 0) {
+    //     $user_data = $result->fetch_assoc();
+    //     $name = $user_data['nama'];
+    //     $email = $user_data['email'];
+    //     $phone = $user_data['phone'];
+    //     $user_status = $user_data['status'];
+    // } else {
+    //     $_SESSION['error_daftar_kursus'] = "Data pengguna tidak ditemukan.";
+    //     header("Location: login.php");
+    //     exit;
+    // }
+
+    // if ($user_status === 'Aktif') {
+    //     $_SESSION['error_daftar_kursus'] = "Akun Anda masih aktif. Jika ada pertanyaan silahkan hubungi Admin.";
+    //     header("Location: pendaftaran.php");
+    //     exit;
+    // }
+
+    // // Sanitize input form
+    // $course = $conn->real_escape_string($_POST['course']);
+    // $hari = $conn->real_escape_string($_POST['hari']);
+    // $jam = $conn->real_escape_string($_POST['jam']);
+    // $message = $conn->real_escape_string($_POST['message']);
+
+    // // Create a temporary entry with status 'pending' or save in session
+    // $_SESSION['registration_data'] = [
+    //     'name' => $name,
+    //     'email' => $email,
+    //     'phone' => $phone,
+    //     'course' => $course,
+    //     'hari' => $hari,
+    //     'jam' => $jam,
+    //     'message' => $message
+    // ];
+    // $order_id = 'ORDER-' . time(); // Unique order ID
+    // // Simpan data pendaftaran dengan status pending ke database
+    // $sql = "INSERT INTO pendaftaran (name, email, phone, course, hari, jam, message, order_id, status) 
+    //             VALUES ('$name', '$email', '$phone', '$course', '$hari', '$jam', '$message', '$order_id', 'pending')";
+    // if (!$conn->query($sql)) {
+    //     $error_message = "Database error: " . $conn->error;
+    // }
+    // $course_price = ($course == 'reguler') ? 400000 : 350000;
+    // $transaction_details = array(
+    //     'order_id' => $order_id,
+    //     'gross_amount' => $course_price
+    // );
+    // $item_details = array(
+    //     array(
+    //         'id' => 'a01',
+    //         'price' => $course_price,
+    //         'quantity' => 1,
+    //         'name' => $course == 'reguler' ? 'Kursus Vokal Reguler' : 'Kursus Vokal Private'
+    //     )
+    // );
+    // $customer_details = array(
+    //     'first_name' => $name,
+    //     'email' => $email,
+    //     'phone' => $phone
+    // );
+    // $transaction = array(
+    //     'transaction_details' => $transaction_details,
+    //     'customer_details' => $customer_details,
+    //     'item_details' => $item_details,
+    // );
+    // try {
+    //     $snapToken = \Midtrans\Snap::getSnapToken($transaction);
+    // } catch (Exception $e) {
+    //     $error_message = "Midtrans error: " . $e->getMessage();
+    // }
 }
 $conn->close();
 ?>
@@ -143,8 +208,6 @@ $conn->close();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .registration-form {
-            max-width: 600px;
-            margin: 0 auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
@@ -173,7 +236,8 @@ $conn->close();
             border-radius: 4px;
         }
 
-        .registration-form button {
+        .registration-form .daftar-button {
+
             background-color: #333;
             color: #fff;
             border: none;
@@ -186,6 +250,7 @@ $conn->close();
         }
 
         .registration-form button:hover {
+
             background-color: #555;
         }
 
@@ -207,62 +272,176 @@ $conn->close();
     <hr class="m-0">
 
     <div class="main-wrapper py-5">
-        <div class="registration-form">
-            <h1>Pendaftaran Kursus Vokal</h1>
-            <?php if (isset($error_message)): ?>
-                <div class="error-message"><?php echo $error_message; ?></div>
-            <?php endif; ?>
-            <form action="pendaftaran.php" method="post">
-                <label for="course">Pilih Kursus:</label>
-                <select id="course" name="course" onchange="updateHariOptions()">
-                    <option value="">Pilih kursus...</option>
-                    <option value="reguler">KURSUS VOKAL REGULER</option>
-                    <option value="private">KURSUS VOKAL PRIVATE</option>
-                </select>
+        <div class="d-flex flex-column justify-content-around">
+            <h1 class="mb-4">Pendaftaran Kursus Vokal</h1>
+            <div class="d-flex justify-content-between flex-wrap">
+                <!-- Account Form -->
+                <form class="flex-grow-1 registration-form mt-5 mt-md-0" style="max-width: 450px;">
+                    <?php if (isset($success_message)): ?>
+                        <div class="success-message"><?php echo $success_message; ?></div>
+                    <?php endif; ?>
+                    <?php if (isset($error_message)): ?>
+                        <div class="error-message"><?php echo $error_message; ?></div>
+                    <?php endif; ?>
 
-                <label for="hari">Pilih Hari:</label>
-                <select id="hari" name="hari" onchange="updateJamOptions()">
-                    <option value="">Pilih hari...</option>
-                    <option value="Senin">Senin</option>
-                    <option value="Selasa">Selasa</option>
-                    <option value="Rabu">Rabu</option>
-                    <option value="Kamis">Kamis</option>
-                    <option value="Jumat">Jumat</option>
-                    <option value="Sabtu">Sabtu</option>
-                </select>
 
-                <label for="jam">Pilih Jam:</label>
-                <select id="jam" name="jam">
-                    <option value="">Pilih jam...</option>
-                </select>
+                    <form action="pendaftaran.php" method="post" id="form-registrasi">
+                        <?php if (!isset($_SESSION['user_id'])) { ?>
+                            <div class="row mb-0 mb-md-3">
+                                <div class="col-12 d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center justify-content-center w-100">
+                                        <input class="mb-0 me-2" style="width: 20px; height: 20px; cursor: pointer;" type="radio" id="login" name="account_option" value="login" onclick="toggleAccountForm()" checked>
+                                        <label class="mb-0" for="login">Sudah punya akun</label>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center w-100">
+                                        <input class="mb-0 me-2" style="width: 20px; height: 20px; cursor: pointer;" type="radio" id="register" name="account_option" value="register" onclick="toggleAccountForm()">
+                                        <label class="mb-0" for="register">Daftar akun baru</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                <label for="message">Pesan Tambahan:</label>
-                <textarea id="message" name="message" rows="4"></textarea>
+                            <div class="row">
+                                <div class="col-12 ">
+                                    <!-- Dropdown untuk Sudah Punya Akun -->
+                                    <div id="login-form" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label for="email-login" class="form-label">Email:</label>
+                                                    <input type="email" class="form-control" id="email-login" name="email-login" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="password-login" class="form-label">Password:</label>
+                                                    <input type="password" class="form-control" id="password-login" name="password-login" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary" id="login-btn">Masuk</button>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <button type="submit">Daftar Sekarang</button>
-            </form>
-            <?php if ($snapToken): ?>
-                <script type="text/javascript">
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Initiate Snap payment pop-up when form is submitted
-                        snap.pay('<?php echo $snapToken; ?>', {
-                            onSuccess: function(result) {
-                                alert("Pembayaran berhasil");
-                                window.location.href = "https://kvsmanado.my.id/login.php"; // Redirect ke halaman signup
-                            },
-                            onPending: function(result) {
-                                alert("Pembayaran tertunda");
-                            },
-                            onError: function(result) {
-                                alert("Pembayaran gagal");
-                            },
-                            onClose: function() {
-                                alert('Anda menutup pop-up tanpa menyelesaikan pembayaran');
-                            }
-                        });
-                    });
-                </script>
-            <?php endif; ?>
+                                    <!-- Dropdown untuk Registrasi Akun Baru -->
+                                    <div id="register-form" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label for="name-signup" class="form-label">Nama Lengkap:</label>
+                                                    <input type="text" class="form-control" id="name-signup" name="name-signup" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="email-signup" class="form-label">Email:</label>
+                                                    <input type="email" class="form-control" id="email-signup" name="email-signup" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="password-signup" class="form-label">Password:</label>
+                                                    <input type="password" class="form-control" id="password-signup" name="password-signup" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="confirm_password" class="form-label">Konfirmasi Password:</label>
+                                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="phone-signup">Nomor Telepon:</label>
+                                                    <input type="text" id="phone-signup" name="phone-signup" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary" id="register-btn">Daftar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } else { ?>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nama Lengkap:</label>
+                                        <input type="text" class="form-control" id="name" name="name" value="<?php echo $_SESSION['user_name']; ?>" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email:</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['user_email']; ?>" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phone">Nomor Telepon:</label>
+                                        <input type="text" id="phone" name="phone" value="<?php echo $_SESSION['user_phone']; ?>" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </form>
+
+                    <!-- Choose Course -->
+                    <div class="flex-grow-1 registration-form" style="max-width: 450px;">
+                        <?php if (isset($error_message)): ?>
+                            <div class="error-message"><?php echo $error_message; ?></div>
+                        <?php endif;
+
+                        if (isset($_SESSION['error_daftar_kursus'])): ?>
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <?php echo $_SESSION['error_daftar_kursus']; ?>
+                            </div>
+                            <?php unset($_SESSION['error_daftar_kursus']);
+                            ?>
+                        <?php
+                        endif;
+                        ?>
+
+                        <form action="pendaftaran.php" method="post">
+                            <div class="row">
+                                <label for="course">Pilih Kursus:</label>
+                                <select id="course" name="course" onchange="updateHariOptions()">
+                                    <option value="">Pilih kursus...</option>
+                                    <option value="reguler">KURSUS VOKAL REGULER</option>
+                                    <option value="private">KURSUS VOKAL PRIVATE</option>
+                                </select>
+
+                                <label for="hari">Pilih Hari:</label>
+                                <select id="hari" name="hari" onchange="updateJamOptions()">
+                                    <option value="">Pilih hari...</option>
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
+                                    <option value="Sabtu">Sabtu</option>
+                                </select>
+
+                                <label for="jam">Pilih Jam:</label>
+                                <select id="jam" name="jam">
+                                    <option value="">Pilih jam...</option>
+                                </select>
+                                <label for="message">Pesan Tambahan:</label>
+                                <textarea id="message" name="message" rows="4"></textarea>
+                            </div>
+                        </form>
+
+                        <?php if ($snapToken): ?>
+                            <script type="text/javascript">
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    // Initiate Snap payment pop-up when form is submitted
+                                    snap.pay('<?php echo $snapToken; ?>', {
+                                        onSuccess: function(result) {
+                                            alert("Pembayaran berhasil");
+                                            window.location.href = "https://kvsmanado.my.id/login.php"; // Redirect ke halaman signup
+                                        },
+                                        onPending: function(result) {
+                                            alert("Pembayaran tertunda");
+                                        },
+                                        onError: function(result) {
+                                            alert("Pembayaran gagal");
+                                        },
+                                        onClose: function() {
+                                            alert('Anda menutup pop-up tanpa menyelesaikan pembayaran');
+                                        }
+                                    });
+                                });
+                            </script>
+                        <?php endif; ?>
+                    </div>
+            </div>
+            <div class="registration-form mt-5" style="max-height: 100px; width: 100%;">
+                <button class="daftar-button" id="daftar-kursus-btn" type="submit">Daftar Sekarang</button>
+            </div>
         </div>
     </div>
 
@@ -273,10 +452,7 @@ $conn->close();
         // Data booked_slots diambil dari PHP untuk reguler dan private
         var bookedSlotsReguler = <?php echo json_encode($booked_slots_reguler); ?>;
         var bookedSlotsPrivate = <?php echo json_encode($booked_slots_private); ?>;
-
-        var bookedSlots = {}; // Variabel sementara untuk menampung slot berdasarkan pilihan kursus
-
-        // Disable hari dan jam pada awalnya
+        var bookedSlots = {};
         window.onload = function() {
             var hariSelect = document.getElementById('hari');
             var jamSelect = document.getElementById('jam');
@@ -286,7 +462,6 @@ $conn->close();
             jamSelect.disabled = true;
         };
 
-        // Fungsi untuk mengaktifkan hari setelah kursus dipilih
         function updateHariOptions() {
             var course = document.getElementById('course').value;
             var hariSelect = document.getElementById('hari');
@@ -314,7 +489,6 @@ $conn->close();
             }
         }
 
-        // Fungsi untuk menampilkan jam yang tersedia berdasarkan hari yang dipilih
         function updateJamOptions() {
             var hari = document.getElementById('hari').value;
             var jamSelect = document.getElementById('jam');
@@ -350,8 +524,7 @@ $conn->close();
             });
         }
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script/script.js"></script>
 </body>
 
 </html>
