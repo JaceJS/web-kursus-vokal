@@ -126,29 +126,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Ambil data pengguna berdasarkan user_id
-    // $query = "SELECT nama, email, phone, status FROM users WHERE id = ?";
-    // $stmt = $conn->prepare($query);
-    // $stmt->bind_param("i", $user_id);
-    // $stmt->execute();
-    // $result = $stmt->get_result();
-    // if ($result->num_rows > 0) {
-    //     $user_data = $result->fetch_assoc();
-    //     $name = $user_data['nama'];
-    //     $email = $user_data['email'];
-    //     $phone = $user_data['phone'];
-    //     $user_status = $user_data['status'];
-    // } else {
-    //     $_SESSION['error_daftar_kursus'] = "Data pengguna tidak ditemukan.";
-    //     header("Location: login.php");
-    //     exit;
-    // }
+    // Proses Pendaftaran Kursus
+    if (isset($_POST['account_option']) && $_POST['account_option'] == 'course') {
+        if (!$_SESSION['user_id']) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Silakan login terlebih dahulu!'
+            ]);
+            exit;
+        }
 
-    // if ($user_status === 'Aktif') {
-    //     $_SESSION['error_daftar_kursus'] = "Akun Anda masih aktif. Jika ada pertanyaan silahkan hubungi Admin.";
-    //     header("Location: pendaftaran.php");
-    //     exit;
-    // }
+        $course = $_POST['course'];
+        $hari = $_POST['hari'];
+        $jam = $_POST['jam'];
+        $message = $_POST['message'];
+        $order_id = 'ORDER-' . time();
+        $status = 'pending';
+
+        $stmt = $conn->prepare("INSERT INTO pendaftaran (user_id, course, hari, jam, message, order_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("issssss", $_SESSION['user_id'], $course, $hari, $jam, $message, $order_id, $status);
+
+        if ($stmt->execute()) {
+            // Harga kursus
+            // $course_price = ($course == 'reguler') ? 400000 : 350000;
+            $course_price = ($course == 'reguler') ? 20 : 10;
+
+            // Membuat detail transaksi untuk Midtrans
+            $transaction_details = array(
+                'order_id' => $order_id,
+                'gross_amount' => $course_price
+            );
+
+            // Customer details
+            $customer_details = array(
+                'first_name' => $_SESSION['user_name'],
+                'email' => $_SESSION['user_email'],
+                'phone' => $_SESSION['user_phone']
+            );
+
+            // Item detail untuk kursus
+            $item_details = array(
+                array(
+                    'id' => 'a01',
+                    'price' => $course_price,
+                    'quantity' => 1,
+                    'name' => $course == 'reguler' ? 'Kursus Vokal Reguler' : 'Kursus Vokal Private'
+                )
+            );
+
+            // Siapkan transaksi untuk Midtrans
+            $transaction = array(
+                'transaction_details' => $transaction_details,
+                'customer_details' => $customer_details,
+                'item_details' => $item_details,
+            );
+
+            try {
+                // Memanggil Snap API untuk mendapatkan token
+                $snapToken = \Midtrans\Snap::getSnapToken($transaction);
+
+                // Kirim token kembali ke client
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Pendaftaran kursus berhasil! Proceed to payment.',
+                    'snapToken' => $snapToken
+                ]);
+            } catch (Exception $e) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Gagal menghubungi Midtrans: ' . $e->getMessage()
+                ]);
+            }
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Gagal mendaftar kursus, coba lagi.'
+            ]);
+        }
+        exit;
+    }
 
     // // Sanitize input form
     // $course = $conn->real_escape_string($_POST['course']);
@@ -369,15 +425,15 @@ $conn->close();
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Nama Lengkap:</label>
-                                        <input type="text" class="form-control" id="name" name="name" value="<?php echo $_SESSION['user_name']; ?>" readonly>
+                                        <input type="text" class="form-control" id="name" name="name" value="<?php echo $_SESSION['user_name']; ?>" disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email:</label>
-                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['user_email']; ?>" readonly>
+                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['user_email']; ?>" disabled>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="phone">Nomor Telepon:</label>
-                                        <input type="text" id="phone" name="phone" value="<?php echo $_SESSION['user_phone']; ?>" readonly>
+                                        <label for="phone" class="form-label">Nomor Telepon:</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="<?php echo $_SESSION['user_phone']; ?>" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -429,29 +485,6 @@ $conn->close();
                                 <textarea id="message" name="message" rows="4"></textarea>
                             </div>
                         </form>
-
-                        <?php if ($snapToken): ?>
-                            <script type="text/javascript">
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    // Initiate Snap payment pop-up when form is submitted
-                                    snap.pay('<?php echo $snapToken; ?>', {
-                                        onSuccess: function(result) {
-                                            alert("Pembayaran berhasil");
-                                            window.location.href = "https://kvsmanado.my.id/login.php"; // Redirect ke halaman signup
-                                        },
-                                        onPending: function(result) {
-                                            alert("Pembayaran tertunda");
-                                        },
-                                        onError: function(result) {
-                                            alert("Pembayaran gagal");
-                                        },
-                                        onClose: function() {
-                                            alert('Anda menutup pop-up tanpa menyelesaikan pembayaran');
-                                        }
-                                    });
-                                });
-                            </script>
-                        <?php endif; ?>
                     </div>
             </div>
             <div class="registration-form mt-5" style="max-height: 100px; width: 100%;">

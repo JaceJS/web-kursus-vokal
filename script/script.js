@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => response.text())
                 .then(text => {
                     try {
-                        console.log('Response:', text);
                         const data = JSON.parse(text);
                         if (data.status === 'success') {
                             alert(data.message);
@@ -106,6 +105,65 @@ document.addEventListener('DOMContentLoaded', function () {
         daftarKursusButton.addEventListener('click', function (event) {
             event.preventDefault();
             // Tambahkan validasi dan pengiriman form untuk pendaftaran kursus di sini
+            const course = document.getElementById('course').value;
+            const hari = document.getElementById('hari').value;
+            const jam = document.getElementById('jam').value;
+            const message = document.getElementById('message').value;
+
+            if (!course || !hari || !jam) {
+                alert('Semua pilihan harus diisi!');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('account_option', 'course');
+            formData.append('course', course);
+            formData.append('hari', hari);
+            formData.append('jam', jam);
+            formData.append('message', message);
+
+            fetch('pendaftaran.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(text => {
+                    try {
+                        const data = JSON.parse(text);
+                        if (data.status === 'success') {
+                            alert(data.message);
+
+                            // Menampilkan pop-up Midtrans jika pendaftaran berhasil
+                            if (data.snapToken) {
+                                window.snap.pay(data.snapToken, {
+                                    onSuccess: function (result) {
+                                        alert("Transaksi berhasil: " + JSON.stringify(result));
+                                        console.log(result);
+                                        // window.location.reload();
+                                    },
+                                    onPending: function (result) {
+                                        alert("Transaksi pending: " + JSON.stringify(result));
+                                        console.log(result);
+                                    },
+                                    onError: function (result) {
+                                        alert("Transaksi gagal: " + JSON.stringify(result));
+                                        console.log(result);
+                                    }
+                                });
+                            }
+
+                        } else {
+                            alert(data.message);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                        alert("Terjadi kesalahan saat memproses respons.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Terjadi kesalahan, silakan coba lagi.");
+                });
         });
     }
 });
