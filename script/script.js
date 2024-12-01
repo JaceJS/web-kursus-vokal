@@ -142,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                     },
                                     onPending: function (result) {
                                         alert("Transaksi pending");
-
                                         // console.log(result);
                                     },
                                     onError: function (result) {

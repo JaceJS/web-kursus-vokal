@@ -13,7 +13,10 @@ ini_set('display_errors', 1);
 include 'koneksi.php';
 
 // Query to fetch all users from the `users` table
-$users_query = "SELECT id, nama, email, course, hari, jam, created_at FROM users ORDER BY created_at DESC";
+$users_query = "SELECT id, nama, email, course, hari, jam, created_at 
+                FROM users
+                WHERE status = 'Aktif'
+                ORDER BY created_at DESC";
 $users_result = $conn->query($users_query);
 
 $conn->close();
@@ -145,7 +148,7 @@ $conn->close();
         <ul>
             <li><a href="adminpageabsen.php"><i class="fas fa-calendar-check"></i> Absen & Jadwal</a></li>
             <!--<li><a href="adminpagejadwal.php"><i class="fas fa-calendar-alt"></i> Atur Jadwal</a></li>-->
-            <li><a href="datapengguna.php"><i class="fas fa-users"></i> Data Pengguna</a></li>
+            <li><a href="adminpagedatapengguna.php"><i class="fas fa-users"></i> Data Pengguna</a></li>
             <!--<li><a href="adminpageinformasi.php"><i class="fas fa-info-circle"></i> Informasi & Bukti Pembayaran</a></li>-->
             <li><a href="adminpagelogout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>

@@ -9,10 +9,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="d-flex flex-column ms-auto">
                 <div class="social-icons text-end mb-2">
-                    <a href="#">
+                    <a href="https://www.facebook.com/share/18UWitTqjP/?mibextid=LQQJ4d" target="_blank">
                         <img src="gambar/logo_fb.png" alt="Facebook Logo" width="32">
                     </a>
-                    <a href="#">
+                    <a href="https://www.instagram.com/roos_atimang" target="_blank">
                         <img src="gambar/logo_ig.png" alt="Instagram Logo" width="32">
                     </a>
                 </div>

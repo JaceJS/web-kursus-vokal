@@ -168,6 +168,7 @@ $conn->close();
             background-color: #45a049;
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -182,14 +183,26 @@ $conn->close();
             <li><a href="adminpagelogout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
+
     <div class="content">
         <h1>Detail Pengguna</h1>
-        <p><strong>Nama:</strong> <?php echo htmlspecialchars($user_data['nama']); ?></p>
-        <p><strong>Email:</strong> <?php echo htmlspecialchars($user_data['email']); ?></p>
-        <p><strong>Kursus:</strong> <?php echo htmlspecialchars($user_data['course']); ?></p>
-        <p><strong>Hari:</strong> <?php echo htmlspecialchars($user_data['hari']); ?></p>
-        <p><strong>Jam:</strong> <?php echo htmlspecialchars($user_data['jam']); ?></p>
-        <p><strong>Tanggal Pendaftaran:</strong> <?php echo htmlspecialchars($user_data['created_at']); ?></p>
+        <div class="d-flex justify-content-between">
+            <div>
+                <p><strong>Nama:</strong> <?php echo htmlspecialchars($user_data['nama']); ?></p>
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($user_data['email']); ?></p>
+                <p><strong>Kursus:</strong> <?php echo htmlspecialchars($user_data['course']); ?></p>
+                <p><strong>Hari:</strong> <?php echo htmlspecialchars($user_data['hari']); ?></p>
+                <p><strong>Jam:</strong> <?php echo htmlspecialchars($user_data['jam']); ?></p>
+                <p><strong>Tanggal Pendaftaran:</strong> <?php echo htmlspecialchars($user_data['created_at']); ?></p>
+            </div>
+            <div>
+                <a href="adminpage_print_pengguna.php?user_id=<?php echo $user_data['id']; ?>" class="btn btn-primary" target="_blank">Print PDF</a>
+                <!-- <form action="adminpage_print_pengguna.php" method="get">
+                    <input type="hidden" name="user_id" value="<?php echo $user_data['id']; ?>">
+                    <button type="submit" class="btn btn-danger">Print PDF</button>
+                </form> -->
+            </div>
+        </div>
 
         <!-- Payment Details -->
         <h2>Detail Pembayaran</h2>
@@ -204,7 +217,7 @@ $conn->close();
                 <p><strong>VA Number:</strong> <?php echo htmlspecialchars($payment_data['va_number']); ?></p>
             <?php endif; ?>
         <?php else: ?>
-            <p>Payment details not available.</p>
+            <p>Detail pembayaran tidak tersedia.</p>
         <?php endif; ?>
 
         <!-- Tabel Absen Pengguna -->
@@ -238,6 +251,8 @@ $conn->close();
             ?>
         </table>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
