@@ -128,9 +128,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Proses Pendaftaran Kursus
     if (isset($_POST['account_option']) && $_POST['account_option'] == 'course') {
-        if (!$_SESSION['user_id']) {
+        if (!isset($_SESSION['user_id'])) {
+            $_SESSION['error_account'] = "Silakan login terlebih dahulu!";
             echo json_encode([
-                'status' => 'success',
+                'status' => 'error',
                 'message' => 'Silakan login terlebih dahulu!'
             ]);
             exit;
@@ -147,24 +148,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("issssss", $_SESSION['user_id'], $course, $hari, $jam, $message, $order_id, $status);
 
         if ($stmt->execute()) {
-            // Harga kursus
             // $course_price = ($course == 'reguler') ? 400000 : 350000;
             $course_price = ($course == 'reguler') ? 20 : 10;
 
-            // Membuat detail transaksi untuk Midtrans
             $transaction_details = array(
                 'order_id' => $order_id,
                 'gross_amount' => $course_price
             );
-
-            // Customer details
             $customer_details = array(
                 'first_name' => $_SESSION['user_name'],
                 'email' => $_SESSION['user_email'],
                 'phone' => $_SESSION['user_phone']
             );
-
-            // Item detail untuk kursus
             $item_details = array(
                 array(
                     'id' => 'a01',
@@ -182,10 +177,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             );
 
             try {
-                // Memanggil Snap API untuk mendapatkan token
                 $snapToken = \Midtrans\Snap::getSnapToken($transaction);
 
-                // Kirim token kembali ke client
                 echo json_encode([
                     'status' => 'success',
                     'message' => 'Pendaftaran kursus berhasil! Proceed to payment.',

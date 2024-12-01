@@ -17,6 +17,8 @@ html {
 
 body {
   font-family: HelveticaCd, Helvetica, Verdana, Sans-Serif !important;
+  /* background-color: #f8f9fa; */
+  background-color: #f1f1f1;
 }
 
 /* Reset beberapa elemen dasar untuk memastikan konsistensi di berbagai browser */

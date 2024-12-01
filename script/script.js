@@ -32,16 +32,16 @@ document.addEventListener('DOMContentLoaded', function () {
                             alert(data.message);
                             window.location.reload();
                         } else {
-                            alert(data.message);
+                            window.location.reload();
                         }
                     } catch (e) {
                         console.error('Error parsing JSON:', e);
-                        alert("Terjadi kesalahan saat memproses respons.");
+                        window.location.reload();
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("Terjadi kesalahan, silakan coba lagi.");
+                    window.location.reload();
                 });
         });
     }
@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             window.location.reload();
                         } else {
                             alert(data.message);
+                            window.location.reload();
                         }
                     } catch (e) {
                         console.error('Error parsing JSON:', e);
@@ -104,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (daftarKursusButton) {
         daftarKursusButton.addEventListener('click', function (event) {
             event.preventDefault();
-            // Tambahkan validasi dan pengiriman form untuk pendaftaran kursus di sini
             const course = document.getElementById('course').value;
             const hari = document.getElementById('hari').value;
             const jam = document.getElementById('jam').value;
@@ -129,7 +129,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => response.text())
                 .then(text => {
                     try {
+                        console.log('text: ', text);
                         const data = JSON.parse(text);
+
                         if (data.status === 'success') {
                             alert(data.message);
 
@@ -151,9 +153,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                     }
                                 });
                             }
-
                         } else {
-                            alert(data.message);
+                            // alert(data.message);
+                            window.location.reload();
                         }
                     } catch (e) {
                         console.error('Error parsing JSON:', e);

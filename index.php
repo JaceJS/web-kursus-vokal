@@ -82,29 +82,89 @@ if (isset($_SESSION['user_id'])) {
 
       <div class="hero">
         <img src="gambar/bannerberanda.png" alt="Gambar Kursus Vokal" />
-        <h1>SELAMAT DATANG DI KURSUS VOCAL SIMPHONY</h1>
-        <p>
-          Kembangkan bakat vokal Anda dengan bimbingan dari instruktur
-          profesional dan kursus yang terstruktur.
-        </p>
       </div>
+
+      <!-- Card Section: Tentang Kami -->
       <section>
         <h2>Tentang Kami</h2>
-        <p>
-          Di Kursus Vokal Terbaik, kami menawarkan pelatihan vokal yang
-          dirancang untuk membantu Anda mencapai potensi penuh Anda. Kami
-          menyediakan berbagai kursus mulai dari tingkat pemula hingga tingkat
-          lanjut, yang disampaikan oleh instruktur berpengalaman.
-        </p>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <div class="col">
+            <div class="card about-card">
+              <img src="gambar/tentang1.jpg" class="card-img-top" alt="Instruktur Berpengalaman">
+              <div class="card-body">
+                <h5 class="card-title">Pengajar Ahli</h5>
+                <p class="card-text">Pengajar vokal yang sudah berpengalaman dan siap membantu Anda berkembang.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card about-card">
+              <img src="gambar/tentang2.jpg" class="card-img-top" alt="Metode Pembelajaran">
+              <div class="card-body">
+                <h5 class="card-title">Metode Belajar Menyenangkan</h5>
+                <p class="card-text">Belajar vokal dengan cara yang mudah dan menyenangkan. Tidak ada tekanan, hanya kesenangan.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card about-card">
+              <img src="gambar/tentang3.jpg" class="card-img-top" alt="Fasilitas Terbaik">
+              <div class="card-body">
+                <h5 class="card-title">Fasilitas Nyaman</h5>
+                <p class="card-text">Dilengkapi dengan studio dan alat rekaman yang nyaman, kami siap mendukung proses belajar Anda.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
+
+
+      <!-- Card Section: Fasilitas Kami -->
       <section>
         <h2>Fasilitas Kami</h2>
-        <ul>
-          <li>Kelas pribadi dan kelompok</li>
-          <li>Studio rekaman profesional</li>
-          <li>Materi pembelajaran lengkap</li>
-          <li>Sesi latihan tambahan</li>
-        </ul>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <div class="col">
+            <div class="card">
+              <img src="gambar/fasilitas1.jpg" class="card-img-top" alt="Kelas Pribadi">
+              <div class="card-body">
+                <h5 class="card-title">Kelas Pribadi & Kelompok</h5>
+                <p class="card-text">Kelas yang didesain khusus untuk kebutuhan individu dengan perhatian penuh dari instruktur.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card">
+              <img src="gambar/fasilitas2.jpg" class="card-img-top" alt="Studio Rekaman">
+              <div class="card-body">
+                <h5 class="card-title">Studio Rekaman Profesional</h5>
+                <p class="card-text">Dilengkapi dengan perangkat rekaman terbaik untuk hasil suara yang optimal.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card">
+              <img src="gambar/fasilitas3.jpg" class="card-img-top" alt="Materi Pembelajaran">
+              <div class="card-body">
+                <h5 class="card-title">Materi Pembelajaran Lengkap</h5>
+                <p class="card-text">Materi yang disusun secara terstruktur untuk memudahkan pemahaman setiap peserta.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card">
+              <img src="gambar/fasilitas4.jpg" class="card-img-top" alt="Sesi Latihan Tambahan">
+              <div class="card-body">
+                <h5 class="card-title">Sesi Latihan Tambahan</h5>
+                <p class="card-text">Kami menyediakan sesi latihan untuk meningkatkan kemampuan vokal Anda lebih jauh.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
