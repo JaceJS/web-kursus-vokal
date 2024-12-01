@@ -137,17 +137,18 @@ document.addEventListener('DOMContentLoaded', function () {
                             if (data.snapToken) {
                                 window.snap.pay(data.snapToken, {
                                     onSuccess: function (result) {
-                                        alert("Transaksi berhasil: " + JSON.stringify(result));
-                                        console.log(result);
-                                        // window.location.reload();
+                                        alert("Transaksi berhasil");
+                                        // console.log(result);
                                     },
                                     onPending: function (result) {
-                                        alert("Transaksi pending: " + JSON.stringify(result));
-                                        console.log(result);
+                                        alert("Transaksi pending");
+
+                                        // console.log(result);
                                     },
                                     onError: function (result) {
-                                        alert("Transaksi gagal: " + JSON.stringify(result));
-                                        console.log(result);
+                                        alert("Transaksi gagal");
+                                        // alert("Transaksi gagal: " + JSON.stringify(result));
+                                        // console.log(result);
                                     }
                                 });
                             }
