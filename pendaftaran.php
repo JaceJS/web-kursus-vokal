@@ -198,58 +198,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         exit;
     }
-
-    // // Sanitize input form
-    // $course = $conn->real_escape_string($_POST['course']);
-    // $hari = $conn->real_escape_string($_POST['hari']);
-    // $jam = $conn->real_escape_string($_POST['jam']);
-    // $message = $conn->real_escape_string($_POST['message']);
-
-    // // Create a temporary entry with status 'pending' or save in session
-    // $_SESSION['registration_data'] = [
-    //     'name' => $name,
-    //     'email' => $email,
-    //     'phone' => $phone,
-    //     'course' => $course,
-    //     'hari' => $hari,
-    //     'jam' => $jam,
-    //     'message' => $message
-    // ];
-    // $order_id = 'ORDER-' . time(); // Unique order ID
-    // // Simpan data pendaftaran dengan status pending ke database
-    // $sql = "INSERT INTO pendaftaran (name, email, phone, course, hari, jam, message, order_id, status) 
-    //             VALUES ('$name', '$email', '$phone', '$course', '$hari', '$jam', '$message', '$order_id', 'pending')";
-    // if (!$conn->query($sql)) {
-    //     $error_message = "Database error: " . $conn->error;
-    // }
-    // $course_price = ($course == 'reguler') ? 400000 : 350000;
-    // $transaction_details = array(
-    //     'order_id' => $order_id,
-    //     'gross_amount' => $course_price
-    // );
-    // $item_details = array(
-    //     array(
-    //         'id' => 'a01',
-    //         'price' => $course_price,
-    //         'quantity' => 1,
-    //         'name' => $course == 'reguler' ? 'Kursus Vokal Reguler' : 'Kursus Vokal Private'
-    //     )
-    // );
-    // $customer_details = array(
-    //     'first_name' => $name,
-    //     'email' => $email,
-    //     'phone' => $phone
-    // );
-    // $transaction = array(
-    //     'transaction_details' => $transaction_details,
-    //     'customer_details' => $customer_details,
-    //     'item_details' => $item_details,
-    // );
-    // try {
-    //     $snapToken = \Midtrans\Snap::getSnapToken($transaction);
-    // } catch (Exception $e) {
-    //     $error_message = "Midtrans error: " . $e->getMessage();
-    // }
 }
 $conn->close();
 ?>

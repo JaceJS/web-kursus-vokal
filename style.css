@@ -107,6 +107,7 @@ section ul li {
   color: white;
   text-align: center;
   margin-top: 20px;
+  font-family: Helvetica, Verdana, Sans-Serif !important;
 }
 
 .footer-wave {

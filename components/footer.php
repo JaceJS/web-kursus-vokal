@@ -5,7 +5,7 @@
         </svg>
     </div>
     <div class="footer-content">
-        <h3>Kursus Vocal Simphony</h3>
+        <h3 style="color: #FDF867">Kursus Vocal Simphony</h3>
         <p>Kompleks Marina Plaza Gedung M walk lt2 B10 B11 B13, Manado, Indonesia</p>
         <p>Tel. +62 813 4085 6153</p>
         <p>Email: kursusvocalsimphony@gmail.com</p>
