@@ -17,7 +17,6 @@ html {
 
 body {
   font-family: HelveticaCd, Helvetica, Verdana, Sans-Serif !important;
-  /* background-color: #f8f9fa; */
   background-color: #f1f1f1;
 }
 
@@ -129,7 +128,7 @@ section ul li {
 }
 
 .footer-content p {
-  font-size: 14px;
+  font-size: 16px;
   margin: 8px 0;
 }
 

@@ -56,6 +56,10 @@ if (isset($_SESSION['user_id'])) {
       font-size: 1.2em;
       color: #555;
     }
+
+    .card {
+      border: 0;
+    }
   </style>
 </head>
 
@@ -86,7 +90,6 @@ if (isset($_SESSION['user_id'])) {
 
       <!-- Card Section: Tentang Kami -->
       <section>
-        <h2>Tentang Kami</h2>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           <div class="col">
             <div class="card about-card">
@@ -120,10 +123,8 @@ if (isset($_SESSION['user_id'])) {
         </div>
       </section>
 
-
       <!-- Card Section: Fasilitas Kami -->
       <section>
-        <h2>Fasilitas Kami</h2>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           <div class="col">
             <div class="card">
@@ -139,7 +140,7 @@ if (isset($_SESSION['user_id'])) {
             <div class="card">
               <img src="gambar/fasilitas2.jpg" class="card-img-top" alt="Studio Rekaman">
               <div class="card-body">
-                <h5 class="card-title">Studio Rekaman Profesional</h5>
+                <h5 class="card-title">Studio Rekaman</h5>
                 <p class="card-text">Dilengkapi dengan perangkat rekaman terbaik untuk hasil suara yang optimal.</p>
               </div>
             </div>
@@ -166,6 +167,38 @@ if (isset($_SESSION['user_id'])) {
           </div>
         </div>
       </section>
+
+      <!-- Card Lokasi -->
+      <div class="row">
+        <div class="col-md-8 col-sm-12">
+          <div class="card" style="width: 100%; height: 100%;">
+            <div class="card-body pb-0">
+              <h3 class="card-title fw-bold" style="color: #2717f8;">Lokasi</h3>
+              <p class="card-text">Kompleks Marina Plaza Gedung M walk lt2 B10 B11 B13, Manado, Indonesia</p>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7976.906467201437!2d124.83742604135985!3d1.4988341439484099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3287756bab08cb2b%3A0xfa197c008d04af59!2sM%20Walk!5e0!3m2!1sen!2sid!4v1733074694929!5m2!1sen!2sid"
+                width="600"
+                height="200"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="card rounded-0" style="width: 100%; height: 100%; border: 1px solid #dcdcdc">
+            <div class="card-body pb-0">
+              <h3 class="card-title mb-5 fw-bold" style="color: #2717f8;">Kontak</h3>
+              <p class="card-text">Tel. +62 813 4085 6153</p>
+              <p class="card-text">
+                Email: <a href="mailto:kursusvocalsimphony@gmail.com">kursusvocalsimphony@gmail.com</a>
+              </p>
+              <p class="card-text">Website: <a href="https://kvsmanado.my.id/" target="_blank"><u>https://kvsmanado.my.id</u></a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
