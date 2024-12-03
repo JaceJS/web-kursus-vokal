@@ -10,11 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const email = document.getElementById('email-login').value;
             const password = document.getElementById('password-login').value;
 
-            if (!email || !password) {
-                alert('Email dan password harus diisi!');
-                return;
-            }
-
             const formData = new FormData();
             formData.append('account_option', 'login');
             formData.append('email-login', email);
@@ -29,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     try {
                         const data = JSON.parse(text);
                         if (data.status === 'success') {
-                            alert(data.message);
                             window.location.reload();
                         } else {
                             window.location.reload();
@@ -56,16 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const confirmPassword = document.getElementById('confirm_password').value;
             const phone = document.getElementById('phone-signup').value;
 
-            if (!name || !email || !password || !confirmPassword || !phone) {
-                alert('Semua kolom harus diisi!');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                alert('Password dan konfirmasi password tidak cocok!');
-                return;
-            }
-
             const formData = new FormData();
             formData.append('account_option', 'register');
             formData.append('name', name);
@@ -83,10 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     try {
                         const data = JSON.parse(text);
                         if (data.status === 'success') {
-                            alert(data.message);
                             window.location.reload();
                         } else {
-                            alert(data.message);
                             window.location.reload();
                         }
                     } catch (e) {
@@ -109,11 +91,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const hari = document.getElementById('hari').value;
             const jam = document.getElementById('jam').value;
             const message = document.getElementById('message').value;
-
-            if (!course || !hari || !jam) {
-                alert('Semua pilihan harus diisi!');
-                return;
-            }
 
             const formData = new FormData();
             formData.append('account_option', 'course');

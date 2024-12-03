@@ -47,6 +47,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email-login'];
         $password = $_POST['password-login'];
 
+        if (empty($email) || empty($password)) {
+            $_SESSION['error_account'] = "Email dan password harus diisi!";
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Email dan password harus diisi!'
+            ]);
+            exit;
+        }
+
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -82,7 +91,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $confirm_password = $_POST['confirm_password'];
         $phone = $_POST['phone'];
 
+        if (empty($name) || empty($email) || empty($password) || empty($confirm_password) || empty($phone)) {
+            $_SESSION['error_account'] = "Semua kolom harus diisi!";
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Semua kolom harus diisi!'
+            ]);
+            exit;
+        }
+
         if ($password !== $confirm_password) {
+            $_SESSION['error_account'] = "Password dan konfirmasi password tidak cocok!";
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Password dan konfirmasi password tidak cocok!'
@@ -95,6 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
+            $_SESSION['error_account'] = "Email sudah terdaftar!";
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Email sudah terdaftar!'
@@ -113,11 +133,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_email'] = $email;
             $_SESSION['user_phone'] = $phone;
             $_SESSION['user_status'] = 'Tidak Aktif';
+            $_SESSION['success_account'] = "Registrasi berhasil!";
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Registrasi berhasil!'
             ]);
         } else {
+            $_SESSION['error_account'] = "Gagal mendaftar, coba lagi.";
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Gagal mendaftar, coba lagi.'
@@ -143,6 +165,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = $_POST['message'];
         $order_id = 'ORDER-' . time();
         $status = 'pending';
+
+        if (empty($course) || empty($hari) || empty($jam)) {
+            $_SESSION['error_daftar_kursus'] = "Semua kolom harus diisi!";
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Semua kolom harus diisi!'
+            ]);
+            exit;
+        }
 
         $stmt = $conn->prepare("INSERT INTO pendaftaran (user_id, course, hari, jam, message, order_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("issssss", $_SESSION['user_id'], $course, $hari, $jam, $message, $order_id, $status);
@@ -390,7 +421,7 @@ $conn->close();
                         <?php endif;
 
                         if (isset($_SESSION['error_daftar_kursus'])): ?>
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 <?php echo $_SESSION['error_daftar_kursus']; ?>
                             </div>
