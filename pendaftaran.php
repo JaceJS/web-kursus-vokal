@@ -178,7 +178,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare("INSERT INTO pendaftaran (user_id, course, hari, jam, message, order_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("issssss", $_SESSION['user_id'], $course, $hari, $jam, $message, $order_id, $status);
 
-        if ($stmt->execute()) {
+        $stmt_update_user = $conn->prepare("UPDATE users SET status='Aktif' WHERE id=?");
+        $stmt_update_user->bind_param("i", $_SESSION['user_id']);
+
+        if ($stmt->execute() && $stmt_update_user->execute()) {
             // $course_price = ($course == 'reguler') ? 400000 : 350000;
             $course_price = ($course == 'reguler') ? 20 : 10;
 
