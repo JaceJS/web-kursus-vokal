@@ -56,6 +56,24 @@ a {
   color: #2717f8 !important;
 }
 
+.navbar-logo {
+  width: 180px;
+  object-fit: cover;
+}
+
+@media (max-width: 767px) {
+  .navbar-logo {
+    width: 120px;
+  }
+}
+
+/* Responsif untuk tablet (layar lebih besar dari ponsel) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navbar-logo {
+    width: 150px;
+  }
+}
+
 /* Gaya untuk bagian hero */
 .hero {
   text-align: center;
