@@ -42,6 +42,7 @@ if ($transaction_status == 'settlement' || ($transaction_status == 'capture' && 
         WHERE order_id='$order_id'";
 
     $sql_upadate_users = "UPDATE users SET status='Aktif' WHERE order_id='$order_id'";
+    $conn->query($sql_upadate_users);
 
     if ($conn->query($sql_update_pendaftaran) === TRUE) {
         echo "Status pendaftaran diperbarui menjadi settled, payment_type, va_number, bank, store, dan settlement_time disimpan.";

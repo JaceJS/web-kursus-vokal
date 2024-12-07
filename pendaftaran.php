@@ -178,12 +178,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare("INSERT INTO pendaftaran (user_id, course, hari, jam, message, order_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("issssss", $_SESSION['user_id'], $course, $hari, $jam, $message, $order_id, $status);
 
-        $stmt_update_user = $conn->prepare("UPDATE users SET status='Aktif' WHERE id=?");
-        $stmt_update_user->bind_param("i", $_SESSION['user_id']);
+        if ($stmt->execute()) {
+            $stmt_update_user = $conn->prepare("UPDATE users SET order_id=? WHERE id=?");
+            $stmt_update_user->bind_param("si", $order_id, $_SESSION['user_id']);
 
-        if ($stmt->execute() && $stmt_update_user->execute()) {
-            // $course_price = ($course == 'reguler') ? 400000 : 350000;
-            $course_price = ($course == 'reguler') ? 20 : 10;
+            $course_price = ($course == 'reguler') ? 400000 : 350000;
 
             $transaction_details = array(
                 'order_id' => $order_id,
@@ -223,6 +222,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'status' => 'error',
                     'message' => 'Gagal menghubungi Midtrans: ' . $e->getMessage()
                 ]);
+                exit();
             }
         } else {
             echo json_encode([

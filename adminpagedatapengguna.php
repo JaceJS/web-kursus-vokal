@@ -13,10 +13,12 @@ ini_set('display_errors', 1);
 include 'koneksi.php';
 
 // Query to fetch all users from the `users` table
-$users_query = "SELECT id, nama, email, course, hari, jam, created_at 
-                FROM users
-                WHERE status = 'Aktif'
-                ORDER BY created_at DESC";
+$users_query = "SELECT u.id, u.nama, u.email, p.course, p.hari, p.jam, p.created_at 
+FROM users u
+JOIN pendaftaran p ON p.user_id = u.id
+WHERE u.status = 'Aktif'
+ORDER BY created_at DESC";
+
 $users_result = $conn->query($users_query);
 
 $conn->close();

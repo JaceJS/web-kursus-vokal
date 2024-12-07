@@ -21,7 +21,10 @@ if (isset($_GET['id'])) {
 }
 
 // Query to fetch the user's details based on the ID
-$user_query = "SELECT id, nama, email, course, hari, jam, order_id, created_at FROM users WHERE id = $user_id";
+$user_query = "SELECT u.id, u.nama, u.email, p.course, p.hari, p.jam, p.order_id, created_at 
+                FROM users u
+                JOIN pendaftaran p ON u.id = p.user_id 
+                WHERE u.id = $user_id";
 $user_result = $conn->query($user_query);
 
 // Check if the user exists
