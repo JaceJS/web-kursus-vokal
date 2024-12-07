@@ -129,10 +129,37 @@ if (isset($_SESSION['user_id'])) {
       ?>
 
       <div class="hero">
+        <!-- Slider -->
         <div class="row">
-          <img src="gambar/bannerberanda.png" alt="Gambar Kursus Vokal" />
+          <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="gambar/slider/beranda_1.png" class="d-block w-100" alt="Slider Vokal 1">
+              </div>
+              <div class="carousel-item">
+                <img src="gambar/slider/beranda_2.png" class="d-block w-100" alt="Slider Vokal 2">
+              </div>
+              <div class="carousel-item">
+                <img src="gambar/slider/beranda_3.png" class="d-block w-100" alt="Slider Vokal 3">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
         </div>
 
+        <!-- Card Section: Kategori Kursus, Daftar Sekarang, Profil Pelatih -->
         <div class="row d-flex align-items-stretch w-100 mx-auto p-4" style="background-color: #FDF867;">
           <a class="col" href="kursus.php" style="text-decoration: none;">
             <div class="border-card h-100 text-start p-3" style="color: #2717f8">
