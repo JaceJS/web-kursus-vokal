@@ -13,37 +13,6 @@ include 'koneksi.php';
   <title>Kursus Vokal Terbaik</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .carousel-caption {
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 20px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      width: 100%;
-      display: flex !important;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .carousel-caption p {
-      margin: 0;
-      font-size: 1.3rem;
-      font-weight: 500;
-    }
-
-    .caption-dark {
-      background-color: rgba(0, 0, 0, 0.7);
-    }
-
-    .carousel-caption h5,
-    .carousel-caption p {
-      color: white;
-    }
-  </style>
 </head>
 
 <body>
@@ -54,7 +23,6 @@ include 'koneksi.php';
   <hr class="m-0">
 
   <div class="main-wrapper">
-    <!-- <h1 class="mb-4">Daftar Kursus Vokal Kami</h1> -->
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -95,5 +63,78 @@ include 'koneksi.php';
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+<style>
+  .carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .carousel-caption p {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+
+  .caption-dark {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .carousel-caption h5,
+  .carousel-caption p {
+    color: white;
+  }
+
+  @media (max-width: 767px) {
+    .carousel-caption {
+      padding: 10px;
+      font-size: 14px;
+      height: 100%;
+    }
+
+    .carousel-caption h1 {
+      font-size: 16px;
+    }
+
+    .carousel-caption p {
+      font-size: 12px;
+    }
+
+    .carousel-caption p.price {
+      font-size: 14px;
+    }
+  }
+
+  /* Responsif untuk tablet (layar lebih besar dari ponsel) */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .carousel-caption {
+      padding: 15px;
+      font-size: 16px;
+      height: 100%;
+    }
+
+    .carousel-caption h1 {
+      font-size: 18px;
+    }
+
+    .carousel-caption p {
+      font-size: 14px;
+    }
+
+    .carousel-caption p.price {
+      font-size: 16px;
+    }
+  }
+</style>
 
 </html>
