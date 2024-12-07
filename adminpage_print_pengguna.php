@@ -9,7 +9,10 @@ include 'koneksi.php';
 $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : 0;
 
 // Fetch user details from the database
-$user_query = "SELECT id, nama, email, course, hari, jam, order_id, created_at FROM users WHERE id = $user_id";
+$user_query = "SELECT u.id, u.nama, u.email, p.course, p.hari, p.jam, p.order_id, u.created_at 
+                FROM users u
+                JOIN pendaftaran p ON u.id = p.user_id 
+                WHERE u.id = $user_id";
 $user_result = $conn->query($user_query);
 if ($user_result->num_rows == 0) {
     echo "User not found.";

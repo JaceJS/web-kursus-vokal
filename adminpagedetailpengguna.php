@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
 }
 
 // Query to fetch the user's details based on the ID
-$user_query = "SELECT u.id, u.nama, u.email, p.course, p.hari, p.jam, p.order_id, created_at 
+$user_query = "SELECT u.id, u.nama, u.email, p.course, p.hari, p.jam, p.order_id, u.created_at, u.status
                 FROM users u
                 JOIN pendaftaran p ON u.id = p.user_id 
                 WHERE u.id = $user_id";
@@ -197,13 +197,16 @@ $conn->close();
                 <p><strong>Hari:</strong> <?php echo htmlspecialchars($user_data['hari']); ?></p>
                 <p><strong>Jam:</strong> <?php echo htmlspecialchars($user_data['jam']); ?></p>
                 <p><strong>Tanggal Pendaftaran:</strong> <?php echo htmlspecialchars($user_data['created_at']); ?></p>
+                <p><strong>Status:</strong>
+                    <?php
+                    $status_class = ($user_data['status'] == 'Aktif') ? 'btn-success' : 'btn-danger';
+                    $status_text = htmlspecialchars($user_data['status']);
+                    ?>
+                    <button class="btn <?php echo $status_class; ?>" disabled><?php echo $status_text; ?></button>
+                </p>
             </div>
             <div>
                 <a href="adminpage_print_pengguna.php?user_id=<?php echo $user_data['id']; ?>" class="btn btn-primary" target="_blank">Print PDF</a>
-                <!-- <form action="adminpage_print_pengguna.php" method="get">
-                    <input type="hidden" name="user_id" value="<?php echo $user_data['id']; ?>">
-                    <button type="submit" class="btn btn-danger">Print PDF</button>
-                </form> -->
             </div>
         </div>
 

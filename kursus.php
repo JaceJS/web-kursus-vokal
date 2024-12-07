@@ -22,7 +22,7 @@ include 'koneksi.php';
 
   <hr class="m-0">
 
-  <div class="main-wrapper">
+  <div class="main-wrapper" style="min-height: 60vh">
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>

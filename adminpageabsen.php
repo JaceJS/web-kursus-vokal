@@ -25,13 +25,14 @@ $hari_mapping = [
 $hari_dalam_bahasa = $hari_mapping[$hari_ini];
 
 $jadwal_query = "
-    SELECT u.id as user_id, u.nama, u.course, u.hari, u.jam, u.created_at, a.status, a.topik, a.instruktur
+    SELECT u.id as user_id, u.nama, p.course, p.hari, p.jam, u.created_at, a.status, a.topik, a.instruktur
     FROM users u 
     LEFT JOIN absen a ON u.id = a.user_id AND a.tanggal = '$tanggal_hari_ini'
-    WHERE u.hari = '$hari_dalam_bahasa' 
+    LEFT JOIN pendaftaran p ON u.id = p.user_id
+    WHERE p.hari = '$hari_dalam_bahasa' 
     AND u.status = 'Aktif' 
     AND DATE(u.created_at) <= '$tanggal_hari_ini'
-    ORDER BY u.jam";
+    ORDER BY p.jam";
 $jadwal_result = $conn->query($jadwal_query);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

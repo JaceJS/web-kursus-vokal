@@ -13,10 +13,10 @@ ini_set('display_errors', 1);
 include 'koneksi.php';
 
 // Query to fetch all users from the `users` table
-$users_query = "SELECT u.id, u.nama, u.email, p.course, p.hari, p.jam, p.created_at 
+$users_query = "SELECT u.id, u.nama, u.email, p.course, p.hari, p.jam, p.created_at, u.status
 FROM users u
 JOIN pendaftaran p ON p.user_id = u.id
-WHERE u.status = 'Aktif'
+-- WHERE u.status = 'Aktif'
 ORDER BY created_at DESC";
 
 $users_result = $conn->query($users_query);
@@ -135,9 +135,9 @@ $conn->close();
             background-color: #f1f1f1;
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script>
-        // Redirect to detail page when clicking a row
         function goToDetail(userId) {
             window.location.href = 'adminpagedetailpengguna.php?id=' + userId;
         }
@@ -149,9 +149,7 @@ $conn->close();
         <h2 style="color: black;"><a href="adminpage.php">Admin Menu</a></h2>
         <ul>
             <li><a href="adminpageabsen.php"><i class="fas fa-calendar-check"></i> Absen & Jadwal</a></li>
-            <!--<li><a href="adminpagejadwal.php"><i class="fas fa-calendar-alt"></i> Atur Jadwal</a></li>-->
             <li><a href="adminpagedatapengguna.php"><i class="fas fa-users"></i> Data Pengguna</a></li>
-            <!--<li><a href="adminpageinformasi.php"><i class="fas fa-info-circle"></i> Informasi & Bukti Pembayaran</a></li>-->
             <li><a href="adminpagelogout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
@@ -166,6 +164,7 @@ $conn->close();
                     <th>Hari</th>
                     <th>Jam</th>
                     <th>Tanggal Pendaftaran</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -178,6 +177,13 @@ $conn->close();
                             <td><?php echo htmlspecialchars($row['hari']); ?></td>
                             <td><?php echo htmlspecialchars($row['jam']); ?></td>
                             <td><?php echo htmlspecialchars($row['created_at']); ?></td>
+                            <td>
+                                <?php
+                                $status_class = ($row['status'] == 'Aktif') ? 'btn-success' : 'btn-danger';
+                                $status_text = htmlspecialchars($row['status']);
+                                ?>
+                                <button class="btn <?php echo $status_class; ?>" disabled><?php echo $status_text; ?></button>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
