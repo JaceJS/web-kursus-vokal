@@ -10,6 +10,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include 'koneksi.php';
+include 'utils/tanggal.php';
 
 $tanggal_hari_ini = (new DateTime())->format('Y-m-d');
 $hari_ini = date('l');
@@ -155,7 +156,9 @@ $conn->close();
     <?php include 'components/sidebar.php'; ?>
 
     <div class="content">
-        <h1>Jadwal Latihan Hari Ini: <?php echo htmlspecialchars($hari_dalam_bahasa); ?> - <?php echo htmlspecialchars($tanggal_hari_ini); ?></h1>
+        <h1>
+            Jadwal Latihan Hari Ini: <?php echo formatTanggalIndo($tanggal_hari_ini); ?>
+        </h1>
         <table>
             <thead>
                 <tr>
