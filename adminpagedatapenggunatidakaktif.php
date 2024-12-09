@@ -14,7 +14,7 @@ include 'koneksi.php';
 include 'utils/tanggal.php';
 
 $filter_option = isset($_GET['filter']) ? $_GET['filter'] : 'all';
-$where_clause = "WHERE u.status = 'Aktif'";
+$where_clause = "WHERE u.status = 'Tidak Aktif'";
 
 if ($filter_option === 'today') {
     $where_clause .= " AND DATE(p.created_at) = CURDATE()";
@@ -54,9 +54,9 @@ $conn->close();
     <?php include 'components/sidebar.php'; ?>
 
     <div class="content">
-        <h1>Data Pengguna <span class="btn btn-success" style="cursor: auto;">AKTIF</span></h1>
+        <h1>Data Pengguna <span class="btn btn-danger" style="cursor: auto;">TIDAK AKTIF</span></h1>
 
-        <form method="GET" action="adminpagedatapengguna.php" class="mb-4 text-center">
+        <form method="GET" action="adminpagedatapenggunatidakaktif.php" class="mb-4 text-center">
             <label for="filter">Filter Data:</label>
             <select name="filter" id="filter" class="form-select w-auto d-inline">
                 <option value="all" <?= $filter_option === 'all' ? 'selected' : '' ?>>Semua</option>

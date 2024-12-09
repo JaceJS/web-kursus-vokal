@@ -176,16 +176,7 @@ $conn->close();
 </head>
 
 <body>
-    <div class="sidebar">
-        <h2 style="color: black;"><a href="adminpage.php">Admin Menu</a></h2>
-        <ul>
-            <li><a href="adminpageabsen.php"><i class="fas fa-calendar-check"></i> Absen & Jadwal</a></li>
-            <!--<li><a href="adminpagejadwal.php"><i class="fas fa-calendar-alt"></i> Atur Jadwal</a></li>-->
-            <li><a href="adminpagedatapengguna.php"><i class="fas fa-users"></i> Data Pengguna</a></li>
-            <!--<li><a href="adminpageinformasi.php"><i class="fas fa-info-circle"></i> Informasi & Bukti Pembayaran</a></li>-->
-            <li><a href="adminpagelogout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul>
-    </div>
+    <?php include 'components/sidebar.php'; ?>
 
     <div class="content">
         <h1>Detail Pengguna</h1>
