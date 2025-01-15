@@ -314,8 +314,7 @@ $conn->close();
     <div class="main-wrapper py-5">
         <div class="d-flex flex-column justify-content-around">
             <h1 class="mb-4">Pendaftaran Kursus Vokal</h1>
-
-            <div class="d-flex justify-content-between flex-wrap <?php if (!isset($_SESSION['user_id'])): ?>mx-auto<?php else : ?>mx-0<?php endif; ?>">
+            <div class="d-flex justify-content-between flex-wrap">
                 <!-- Account Form -->
                 <form class="flex-grow-1 registration-form mt-5 mt-md-0" style="max-width: 450px;">
                     <?php if (isset($_SESSION['success_account'])): ?>
@@ -334,92 +333,89 @@ $conn->close();
                     <?php endif; ?>
 
 
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <form action="pendaftaran.php" method="post" id="form-registrasi">
-                            <?php if (!isset($_SESSION['user_id'])) { ?>
-                                <div class="row mb-0 mb-md-3">
-                                    <div class="col-12 d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center justify-content-center w-100">
-                                            <input class="mb-0 me-2" style="width: 20px; height: 20px; cursor: pointer;" type="radio" id="login" name="account_option" value="login" onclick="toggleAccountForm()" checked>
-                                            <label class="mb-0" for="login">Sudah punya akun</label>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-center w-100">
-                                            <input class="mb-0 me-2" style="width: 20px; height: 20px; cursor: pointer;" type="radio" id="register" name="account_option" value="register" onclick="toggleAccountForm()">
-                                            <label class="mb-0" for="register">Daftar akun baru</label>
-                                        </div>
+                    <form action="pendaftaran.php" method="post" id="form-registrasi">
+                        <?php if (!isset($_SESSION['user_id'])) { ?>
+                            <div class="row mb-0 mb-md-3">
+                                <div class="col-12 d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center justify-content-center w-100">
+                                        <input class="mb-0 me-2" style="width: 20px; height: 20px; cursor: pointer;" type="radio" id="login" name="account_option" value="login" onclick="toggleAccountForm()" checked>
+                                        <label class="mb-0" for="login">Sudah punya akun</label>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center w-100">
+                                        <input class="mb-0 me-2" style="width: 20px; height: 20px; cursor: pointer;" type="radio" id="register" name="account_option" value="register" onclick="toggleAccountForm()">
+                                        <label class="mb-0" for="register">Daftar akun baru</label>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="row">
-                                    <div class="col-12 ">
-                                        <!-- Dropdown untuk Sudah Punya Akun -->
-                                        <div id="login-form" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="mb-3">
-                                                        <label for="email-login" class="form-label">Email:</label>
-                                                        <input type="email" class="form-control" id="email-login" name="email-login" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="password-login" class="form-label">Password:</label>
-                                                        <input type="password" class="form-control" id="password-login" name="password-login" required>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary" id="login-btn">Masuk</button>
+                            <div class="row">
+                                <div class="col-12 ">
+                                    <!-- Dropdown untuk Sudah Punya Akun -->
+                                    <div id="login-form" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label for="email-login" class="form-label">Email:</label>
+                                                    <input type="email" class="form-control" id="email-login" name="email-login" required>
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Dropdown untuk Registrasi Akun Baru -->
-                                        <div id="register-form" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="mb-3">
-                                                        <label for="name-signup" class="form-label">Nama Lengkap:</label>
-                                                        <input type="text" class="form-control" id="name-signup" name="name-signup" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="email-signup" class="form-label">Email:</label>
-                                                        <input type="email" class="form-control" id="email-signup" name="email-signup" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="password-signup" class="form-label">Password:</label>
-                                                        <input type="password" class="form-control" id="password-signup" name="password-signup" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="confirm_password" class="form-label">Konfirmasi Password:</label>
-                                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="phone-signup">Nomor Telepon:</label>
-                                                        <input type="text" id="phone-signup" name="phone-signup" required>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary" id="register-btn">Daftar</button>
+                                                <div class="mb-3">
+                                                    <label for="password-login" class="form-label">Password:</label>
+                                                    <input type="password" class="form-control" id="password-login" name="password-login" required>
                                                 </div>
+                                                <button type="submit" class="btn btn-primary" id="login-btn">Masuk</button>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            <?php } else { ?>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label">Nama Lengkap:</label>
-                                            <input type="text" class="form-control" id="name" name="name" value="<?php echo $_SESSION['user_name']; ?>" disabled>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email:</label>
-                                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['user_email']; ?>" disabled>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="phone" class="form-label">Nomor Telepon:</label>
-                                            <input type="text" class="form-control" id="phone" name="phone" value="<?php echo $_SESSION['user_phone']; ?>" disabled>
+
+                                    <!-- Dropdown untuk Registrasi Akun Baru -->
+                                    <div id="register-form" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label for="name-signup" class="form-label">Nama Lengkap:</label>
+                                                    <input type="text" class="form-control" id="name-signup" name="name-signup" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="email-signup" class="form-label">Email:</label>
+                                                    <input type="email" class="form-control" id="email-signup" name="email-signup" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="password-signup" class="form-label">Password:</label>
+                                                    <input type="password" class="form-control" id="password-signup" name="password-signup" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="confirm_password" class="form-label">Konfirmasi Password:</label>
+                                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="phone-signup">Nomor Telepon:</label>
+                                                    <input type="text" id="phone-signup" name="phone-signup" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary" id="register-btn">Daftar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            <?php } ?>
-                        </form>
-                    <?php endif; ?>
-
+                            </div>
+                        <?php } else { ?>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nama Lengkap:</label>
+                                        <input type="text" class="form-control" id="name" name="name" value="<?php echo $_SESSION['user_name']; ?>" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email:</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['user_email']; ?>" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Nomor Telepon:</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="<?php echo $_SESSION['user_phone']; ?>" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </form>
 
                     <!-- Choose Course -->
                     <div class="flex-grow-1 registration-form" style="max-width: 450px;">

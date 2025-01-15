@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("Terjadi kesalahan, silakan coba lagi.");
+                    alert("Terjadi kesalahan, silahkan coba lagi.");
                 });
         });
     }
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("Terjadi kesalahan, silakan coba lagi.");
+                    alert("Terjadi kesalahan, silahkan coba lagi.");
                 });
         });
     }
