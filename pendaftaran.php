@@ -315,29 +315,28 @@ $conn->close();
         <div class="d-flex flex-column justify-content-around">
             <h1 class="mb-4">Pendaftaran Kursus Vokal</h1>
 
-            <div class="d-flex justify-content-between flex-wrap <?php if (!isset($_SESSION['user_id'])): ?>mx-auto<?php else : ?>mx-0<?php endif; ?>">
+            <div class="d-flex flex-column justify-content-between align-items-center <?php if (!isset($_SESSION['user_id'])): ?>mx-auto<?php else : ?>mx-0<?php endif; ?>">
                 <!-- Account Form -->
-                <form class="flex-grow-1 registration-form mt-5 mt-md-0" style="max-width: 450px;">
-                    <?php if (isset($_SESSION['success_account'])): ?>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <?php echo $_SESSION['success_account']; ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        <?php unset($_SESSION['success_account']); ?>
-                    <?php endif; ?>
-                    <?php if (isset($_SESSION['error_account'])): ?>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <?php echo $_SESSION['error_account']; ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        <?php unset($_SESSION['error_account']); ?>
-                    <?php endif; ?>
+                <div class="flex-grow-1 registration-form mt-5 mt-md-0" style="<?php if (!isset($_SESSION['user_id'])): ?>width: 450px;<?php else : ?>max-width: 450px; <?php endif; ?>">
+                    <?php if (!isset($_SESSION['user_id'])) { ?>
+                        <?php if (isset($_SESSION['success_account'])): ?>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <?php echo $_SESSION['success_account']; ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            <?php unset($_SESSION['success_account']); ?>
+                        <?php endif; ?>
+                        <?php if (isset($_SESSION['error_account'])): ?>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <?php echo $_SESSION['error_account']; ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            <?php unset($_SESSION['error_account']); ?>
+                        <?php endif; ?>
 
-
-                    <?php if (isset($_SESSION['user_id'])): ?>
                         <form action="pendaftaran.php" method="post" id="form-registrasi">
                             <?php if (!isset($_SESSION['user_id'])) { ?>
-                                <div class="row mb-0 mb-md-3">
+                                <!-- <div class="row mb-0 mb-md-3">
                                     <div class="col-12 d-flex align-items-center justify-content-between">
                                         <div class="d-flex align-items-center justify-content-center w-100">
                                             <input class="mb-0 me-2" style="width: 20px; height: 20px; cursor: pointer;" type="radio" id="login" name="account_option" value="login" onclick="toggleAccountForm()" checked>
@@ -348,12 +347,12 @@ $conn->close();
                                             <label class="mb-0" for="register">Daftar akun baru</label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="row">
                                     <div class="col-12 ">
                                         <!-- Dropdown untuk Sudah Punya Akun -->
-                                        <div id="login-form" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                        <div id="login-form" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="mb-3">
@@ -370,7 +369,7 @@ $conn->close();
                                         </div>
 
                                         <!-- Dropdown untuk Registrasi Akun Baru -->
-                                        <div id="register-form" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div id="register-form" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="mb-3">
@@ -393,7 +392,7 @@ $conn->close();
                                                         <label for="phone-signup">Nomor Telepon:</label>
                                                         <input type="text" id="phone-signup" name="phone-signup" required>
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary" id="register-btn">Daftar</button>
+                                                    <button type="submit" class="btn btn-primary w-100" id="register-btn">Selanjutnya</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -418,58 +417,72 @@ $conn->close();
                                 </div>
                             <?php } ?>
                         </form>
+                    <?php } else { ?>
+                        <div></div>
+                    <?php } ?>
+
+
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <!-- Choose Course -->
+                        <div class="flex-grow-1 registration-form" style="max-width: 450px;">
+                            <?php if (isset($error_message)): ?>
+                                <div class="error-message"><?php echo $error_message; ?></div>
+                            <?php endif;
+
+                            if (isset($_SESSION['error_daftar_kursus'])): ?>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <?php echo $_SESSION['error_daftar_kursus']; ?>
+                                </div>
+                                <?php unset($_SESSION['error_daftar_kursus']);
+                                ?>
+                            <?php
+                            endif;
+                            ?>
+
+                            <form action="pendaftaran.php" method="post">
+                                <div class="row">
+                                    <label for="course">Pilih Kursus:</label>
+                                    <select id="course" name="course" onchange="updateHariOptions()">
+                                        <option value="">Pilih kursus...</option>
+                                        <option value="reguler">KURSUS VOKAL REGULER</option>
+                                        <option value="private">KURSUS VOKAL PRIVATE</option>
+                                    </select>
+
+                                    <label for="hari">Pilih Hari:</label>
+                                    <select id="hari" name="hari" onchange="updateJamOptions()">
+                                        <option value="">Pilih hari...</option>
+                                        <option value="Senin">Senin</option>
+                                        <option value="Selasa">Selasa</option>
+                                        <option value="Rabu">Rabu</option>
+                                        <option value="Kamis">Kamis</option>
+                                        <option value="Jumat">Jumat</option>
+                                        <option value="Sabtu">Sabtu</option>
+                                    </select>
+
+                                    <label for="jam">Pilih Jam:</label>
+                                    <select id="jam" name="jam">
+                                        <option value="">Pilih jam...</option>
+                                    </select>
+                                    <label for="message">Pesan Tambahan:</label>
+                                    <textarea id="message" name="message" rows="4"></textarea>
+                                </div>
+                            </form>
+                        </div>
                     <?php endif; ?>
 
+                </div>
 
-                    <!-- Choose Course -->
-                    <div class="flex-grow-1 registration-form" style="max-width: 450px;">
-                        <?php if (isset($error_message)): ?>
-                            <div class="error-message"><?php echo $error_message; ?></div>
-                        <?php endif;
 
-                        if (isset($_SESSION['error_daftar_kursus'])): ?>
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                <?php echo $_SESSION['error_daftar_kursus']; ?>
-                            </div>
-                            <?php unset($_SESSION['error_daftar_kursus']);
-                            ?>
-                        <?php
-                        endif;
-                        ?>
-
-                        <form action="pendaftaran.php" method="post">
-                            <div class="row">
-                                <label for="course">Pilih Kursus:</label>
-                                <select id="course" name="course" onchange="updateHariOptions()">
-                                    <option value="">Pilih kursus...</option>
-                                    <option value="reguler">KURSUS VOKAL REGULER</option>
-                                    <option value="private">KURSUS VOKAL PRIVATE</option>
-                                </select>
-
-                                <label for="hari">Pilih Hari:</label>
-                                <select id="hari" name="hari" onchange="updateJamOptions()">
-                                    <option value="">Pilih hari...</option>
-                                    <option value="Senin">Senin</option>
-                                    <option value="Selasa">Selasa</option>
-                                    <option value="Rabu">Rabu</option>
-                                    <option value="Kamis">Kamis</option>
-                                    <option value="Jumat">Jumat</option>
-                                    <option value="Sabtu">Sabtu</option>
-                                </select>
-
-                                <label for="jam">Pilih Jam:</label>
-                                <select id="jam" name="jam">
-                                    <option value="">Pilih jam...</option>
-                                </select>
-                                <label for="message">Pesan Tambahan:</label>
-                                <textarea id="message" name="message" rows="4"></textarea>
-                            </div>
-                        </form>
+                <?php
+                if (isset($_SESSION['user_id'])): ?>
+                    <div class="registration-form mt-5" style="max-height: 100px; max-width: 450px;">
+                        <button class="daftar-button" id="daftar-kursus-btn" type="submit">Daftar Sekarang</button>
                     </div>
-            </div>
-            <div class="registration-form mt-5" style="max-height: 100px; width: 100%;">
-                <button class="daftar-button" id="daftar-kursus-btn" type="submit">Daftar Sekarang</button>
+                <?php
+                endif;
+                ?>
+
             </div>
         </div>
     </div>
@@ -554,6 +567,7 @@ $conn->close();
         }
     </script>
     <script src="script/script.js"></script>
+
 </body>
 
 </html>

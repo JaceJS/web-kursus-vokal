@@ -29,7 +29,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     VALUES ('$nama', '$email', '$hashed_password', '$phone', 'Aktif')";
 
             if ($conn->query($sql) === TRUE) {
-                header("Location: login.php");
+                $user_id = $conn->insert_id;
+                $userQuery = $conn->query("SELECT id, nama, email, phone FROM users WHERE id = '$user_id'");
+                $user = $userQuery->fetch_assoc();
+
+                // Set session variables
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_name'] = $user['nama'];
+                $_SESSION['user_email'] = $user['email'];
+                $_SESSION['user_phone'] = $user['phone'];
+                $_SESSION['user_status'] = 'Tidak Aktif';
+
+                // Redirect to login page
+                header("Location: pendaftaran.php");
                 exit;
             } else {
                 $error = "Kesalahan: " . $conn->error;
