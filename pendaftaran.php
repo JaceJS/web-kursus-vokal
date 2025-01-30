@@ -181,6 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             $stmt_update_user = $conn->prepare("UPDATE users SET order_id=? WHERE id=?");
             $stmt_update_user->bind_param("si", $order_id, $_SESSION['user_id']);
+            $stmt_update_user->execute();
 
             $course_price = ($course == 'reguler') ? 400000 : 350000;
 
@@ -228,6 +229,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Gagal mendaftar kursus, coba lagi.'
+            ]);
+        }
+        exit;
+    }
+
+    // Update status users jika berhasil bayar
+    if (isset($_POST['transaction_status'])) {
+        $transaction_status = $_POST['transaction_status'];
+        $order_id = $_POST['order_id'];
+
+        if ($transaction_status == 'settlement') {
+            $stmt = $conn->prepare("UPDATE users SET status='Aktif' WHERE order_id=?");
+            $stmt->bind_param("s", $order_id);
+            if ($stmt->execute()) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Status pembayaran berhasil diupdate!'
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Gagal memperbarui status pembayaran.'
+                ]);
+            }
+        } else if ($transaction_status == 'pending') {
+            echo json_encode([
+                'status' => 'pending',
+                'message' => 'Pembayaran sedang diproses.'
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Pembayaran gagal.'
             ]);
         }
         exit;

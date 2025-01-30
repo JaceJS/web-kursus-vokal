@@ -116,8 +116,19 @@ document.addEventListener('DOMContentLoaded', function () {
                             if (data.snapToken) {
                                 window.snap.pay(data.snapToken, {
                                     onSuccess: function (result) {
+                                        console.log('result: ', result)
+                                        fetch('../pendaftaran.php', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded'
+                                            },
+                                            body: `transaction_status=settlement&order_id=${result.order_id}`
+                                        })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                console.log(data);
+                                            });
                                         alert("Transaksi berhasil");
-                                        // console.log(result);
                                     },
                                     onPending: function (result) {
                                         alert("Transaksi pending");
@@ -125,8 +136,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                     },
                                     onError: function (result) {
                                         alert("Transaksi gagal");
-                                        // alert("Transaksi gagal: " + JSON.stringify(result));
-                                        // console.log(result);
                                     }
                                 });
                             }
